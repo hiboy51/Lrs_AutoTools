@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-14 14:15:03 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-21 18:00:52
+ * @Last Modified time: 2018-06-21 19:38:05
  */
 import gulp from "gulp";
 import path from "path";
@@ -62,26 +62,26 @@ gulp.task("clean_gift_b", function(done) {
     ], {force:true});
 });
 
-gulp.task("gift_player_l2b", done => {
+gulp.task("gift:player_l2b", done => {
     return gulp.src(path.join(Lrs_Root, GiftPlayerPath))
                 .pipe(gulp.dest(path.dirname(path.join(GameBase_Root, GiftPlayerPath))));
 });
 
-gulp.task('gift_common_b2l', () => {
+gulp.task('gift:common_b2l', () => {
     let from = path.join(GameBase_Root, CommonPath, "**/*");
     let to = path.join(Lrs_Root, CommonPath);
     return gulp.src(from)
                 .pipe(gulp.dest(to));
 });
 
-gulp.task('gift_common_l2b', () => {
+gulp.task('gift:common_l2b', () => {
     let from = path.join(Lrs_Root, CommonPath, "**/*");
     let to = path.join(GameBase_Root, CommonPath);
     return gulp.src(from)
                 .pipe(gulp.dest(to));
 });
 
-gulp.task("gift_player_b2l", done => {
+gulp.task("gift:player_b2l", done => {
     return gulp.src(path.join(GameBase_Root, GiftPlayerPath))
                 .pipe(gulp.dest(path.dirname(path.join(Lrs_Root, GiftPlayerPath))));
 });
@@ -148,10 +148,10 @@ gulp.task("sounds:gen_res", done => {
 
 
 /** 拷贝礼物资源及代码 gamebase => lrs */
-gulp.task("gift_b2l", gulp.series("clean_gift_l", "gift_common_b2l", "gift_player_b2l"));
+gulp.task("gift:b2l", gulp.series("clean_gift_l", "gift:common_b2l", "gift:player_b2l"));
 
 /** 拷贝礼物资源及代码 lsr => gamebase */
-gulp.task("gift_l2b", gulp.series("clean_gift_b", "gift_common_l2b", "gift_player_l2b"));
+gulp.task("gift:l2b", gulp.series("clean_gift_b", "gift:common_l2b", "gift:player_l2b"));
 
 /** 同步声音库 game_base => allSounds && lrs */
 gulp.task("sounds", gulp.series("clean_sounds", "common_res_b2l", synSounds));
@@ -173,4 +173,4 @@ gulp.task("sounds:added", gulp.series("sounds:gen_res", "beautify_res_json", () 
 gulp.task("gift:gen_res", gulp.series("asset:gen_res_b", "icon:gen_res_b"));
 
 /** 来个全套 */
-gulp.task("default", gulp.series("gift:gen_res", "gift_b2l"));
+gulp.task("default", gulp.series("gift:gen_res", "gift:b2l"));

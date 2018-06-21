@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 10:44:32 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-21 14:13:05
+ * @Last Modified time: 2018-06-21 19:43:22
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -14,7 +14,7 @@ import path from "path";
 const P = require("gulp-load-plugins")();
 const args = minimist(process.argv.slice(2));
 
-gulp.task("gift_cpy_src", done => {
+gulp.task("gift:cpy_src", done => {
     if (typeof (args.dir) != "string") {
         throw new PluginError("cpy_src", "YOU MUST SPECIFY ONE OR MORE DIRECTORY");
     }
