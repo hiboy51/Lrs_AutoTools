@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-21 19:08:25
+ * @Last Modified time: 2018-06-21 19:13:10
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -42,7 +42,7 @@ gulp.task("gift:up_conf", () => {
 
 /**
  *  同步覆盖 game_base 的 .exml 文件
- *  必须指定源.exml路径或包含其目录路径
+ *  必须指定源 .exml 路径或包含其目录路径
  */
 gulp.task("gift:up_skin", () => {
     let file = args.file;
