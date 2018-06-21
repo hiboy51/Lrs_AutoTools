@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-14 14:15:03 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-21 16:59:58
+ * @Last Modified time: 2018-06-21 18:00:52
  */
 import gulp from "gulp";
 import path from "path";
@@ -86,8 +86,6 @@ gulp.task("gift_player_b2l", done => {
                 .pipe(gulp.dest(path.dirname(path.join(Lrs_Root, GiftPlayerPath))));
 });
 
-
-
 const Arguments = {
     string: "delete",
     default: {delete: false}
@@ -103,15 +101,13 @@ gulp.task("sounds:gen_res", done => {
                 let groups = json.groups;
                 let groupName;
                 let keys;
-                for (let i in groups) {                 
-                    groupName = groups[i].name;
+                groups.every(item => {
+                    groupName = item.name;
                     if (groupName == "sounds") {
-                        keys = groups[i].keys;
-                        if (diffs.add.length != 0) {            // 处理group字段
-                            keys += "," + diffs.add.map(a => {
-                                return a.replace(".", "_");
-                            }).join(",");
-                        } 
+                        keys = item.keys.split(",");
+                        keys = keys.concat(diffs.add.map(a => a.replace(".", "_")));
+                        keys = keys.join(",");
+
                         if (supportDel) {
                             diffs.delete.forEach(de => {
                                 let key = `,${de.replace(".", "_")}`;
@@ -119,10 +115,11 @@ gulp.task("sounds:gen_res", done => {
                                 keys = keys.replace(key, "");
                             });
                         }
-                        groups[i].keys = keys;
-                        break;
+                        item.keys = keys;
+                        return false;
                     }
-                }
+                    return true;
+                });
 
                 let resources = json.resources;         // 处理resources字段
                 diffs.add.forEach(a => {
@@ -135,25 +132,18 @@ gulp.task("sounds:gen_res", done => {
                 if (supportDel) {
                     diffs.delete.forEach(del => {
                         let key = del.replace(".", "_");
-                        for (let i in resources) {
-                            if (resources[i].name == key) {
-                                resources.splice(i, 1);
-                                break;
+                        resources.every((item, index, arr) => {
+                            if (item.name == key) {
+                                arr.splice(index, 1);
+                                return false;
                             }
-                        }
+                            return true;
+                        });
                     });
                 }
                 return json;
             }))
-            .pipe(stringify())
-            .pipe($.beautify({
-                keep_array_indentation: true,
-                brace_style: "expand",
-                indent_size: 4,
-                indent_char: " "
-            }))
-            .pipe(gulp.dest(path.join(GameBase_Root, CommonPath)))
-            .pipe($.errorHandle());
+            .pipe(gulp.dest(path.join(GameBase_Root, CommonPath)));
 });
 
 
@@ -167,7 +157,7 @@ gulp.task("gift_l2b", gulp.series("clean_gift_b", "gift_common_l2b", "gift_playe
 gulp.task("sounds", gulp.series("clean_sounds", "common_res_b2l", synSounds));
 
 /** 将lrs新增的音效同步到game_base */
-gulp.task("sounds:added", gulp.series("sounds:gen_res", () => {
+gulp.task("sounds:added", gulp.series("sounds:gen_res", "beautify_res_json", () => {
     const to = path.join(GameBase_Root, SoundsPath);
     return  gulp.src(path.join(Lrs_Root, SoundsPath, "**/*"))
                 .pipe($.changed(to, {hasChanged: $.changed.compareContents}))
@@ -182,5 +172,5 @@ gulp.task("sounds:added", gulp.series("sounds:gen_res", () => {
  */
 gulp.task("gift:gen_res", gulp.series("asset:gen_res_b", "icon:gen_res_b"));
 
-/** 同gift_b2l */
-gulp.task("default", gulp.series("gift_b2l"));
+/** 来个全套 */
+gulp.task("default", gulp.series("gift:gen_res", "gift_b2l"));

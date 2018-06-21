@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:30 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-21 14:38:56
+ * @Last Modified time: 2018-06-21 17:59:00
  */
 
 import compareDir from "dir-compare";
@@ -10,8 +10,8 @@ import path from "path";
 
 let utils =  {};
 utils.compare_dir = function (left, right, ignore, printlog) {
-    ignore = !!ignore || [];
-    printlog = printlog || false;
+    ignore = ignore || [];
+    printlog = !!printlog || false;
     let result = compareDir.compareSync(left, right);
     let diffs = {"add":[], "delete":[]};
     result.diffSet.forEach(entry => {
