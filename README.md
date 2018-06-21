@@ -5,11 +5,11 @@
   https://gulpjs.com/
 
 # 术语说明
-  *所有关联*：common目录 + giftEffectPlayer.js
+  *所有关联*：common目录 + player代码
 
 # 几个重要任务
   1) gulp                       
-  // default任务，根据GameBase里新增的资源，补充相应common.res.json，并将# *所有关联* #同步给Lrs, 必须指定 --gid
+  // default任务，根据GameBase里新增的资源，补充相应common.res.json，并将#*所有关联*#同步给Lrs, 必须指定 --gid
   
   2) gulp gift:gen_res --gid aaa|aaa,bbb      
   // 根据GameBase里新增的资源，补充相应common.res.json, 必须指定 --gid
