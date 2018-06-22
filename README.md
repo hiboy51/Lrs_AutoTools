@@ -49,4 +49,4 @@
   // 替换GameBase的动画文件(.exml)，必须指定（--file）源路径或包含源文件目录
 
 ## 处理皮肤
-  · gulp skin:add --dir --name
+  1) gulp skin:add --dir --name
