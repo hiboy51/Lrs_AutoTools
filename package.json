@@ -29,6 +29,7 @@
     "path": "^0.12.7",
     "plugin-error": "^1.0.1",
     "promised-del": "^1.0.2",
-    "require-dir": "^1.0.0"
+    "require-dir": "^1.0.0",
+    "streamqueue": "^1.1.2"
   }
 }

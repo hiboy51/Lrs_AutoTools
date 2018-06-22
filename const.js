@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 10:45:06 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-21 15:11:14
+ * @Last Modified time: 2018-06-22 11:08:12
  */
 
 import path from "path";
@@ -19,6 +19,7 @@ const GiftPlayerPath = "src/base/Tools/gift/GiftEffectPlayer.ts";
 module.exports = {
     GameBase_Root: GameBase_Root,
     Lrs_Root: Lrs_Root,
+    Lrs_Room: "resource/lrsRoom",
     Host_Game_Root: Host_Game_Root,
     Sounds_Root: Sounds_Root,
     CommonPath: CommonPath,
