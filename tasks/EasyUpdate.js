@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-21 19:13:10
+ * @Last Modified time: 2018-06-26 15:22:31
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -46,6 +46,7 @@ gulp.task("gift:up_conf", () => {
  */
 gulp.task("gift:up_skin", () => {
     let file = args.file;
+    let toLrs = !!args.l;
     if (!file) {
         throw new PluginError("gift:up_skin", "YOU MUST SPECIFY A FILE OR DIRECTORY");
     }
@@ -58,7 +59,9 @@ gulp.task("gift:up_skin", () => {
     if (stat.isDirectory()) {
         file = path.join(file, "**/*.exml");
     }
+    
+    let root = toLrs ? CONST.Lrs_Root : CONST.GameBase_Root;
     return gulp.src(file)
                 .pipe(P.debug())
-                .pipe(gulp.dest(path.join(CONST.GameBase_Root, CONST.CommonPath, "skins")));
+                .pipe(gulp.dest(path.join(toLrs, CONST.CommonPath, "skins")));
 });
