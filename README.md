@@ -45,7 +45,7 @@
   // 替换GameBase的giftConfig.json，必须指定（--file）源路径或包含源文件目录
   
   * gulp gift:up_skin --file --l                 
-  // 替换GameBase的动画文件(.exml)，必须指定（--file）源路径或包含源文件目录,`可选参数(--l)，拷贝到lrs目录下，否则base目录`
+  // 替换GameBase的动画文件(.exml)，必须指定（--file）源路径或包含源文件目录,__*可选参数(--l)，拷贝到lrs目录下，否则base目录*__
 
 ### 处理皮肤
   * gulp skin:add --dir --name
