@@ -45,10 +45,10 @@
   // 拷贝原图，必须指定（--dir）源路径，可以多个以逗号隔开
   
   * gulp gift:up_conf --file                 
-  // 替换GameBase的giftConfig.json，必须指定（--file）源路径或包含源文件目录
+  // 替换GameBase和lrs的giftConfig.json，必须指定（--file）源路径或包含源文件目录
   
-  * gulp gift:up_skin --file --l                 
-  // 替换GameBase的动画文件(.exml)，必须指定（--file）源路径或包含源文件目录,__*可选参数(--l)，拷贝到lrs目录下，否则base目录*__
+  * gulp gift:up_skin --file                 
+  // 替换GameBase和lrs的动画文件(.exml)，必须指定（--file）源路径或包含源文件目录,
 
   * gulp sounds:cpy_src --file --del    
   // 替换音效资源到GameBase、lrs、allSounds， 必须指定(--file)一个或多个音效文件路径，以逗号隔开，--del默认值true，标识考背后删除源文件
@@ -65,5 +65,5 @@
   6.__`gulp sounds:modify --file`__ 处理新增音效资源,并同步
 
   +调整配置:__`gulp gift:up_conf --file`__
-  +调整动画:__`gulp gift:up_skin --file --l`__
+  +调整动画:__`gulp gift:up_skin --file`__
   +将原图归档:__`gulp gift:cpy_src --dir`__

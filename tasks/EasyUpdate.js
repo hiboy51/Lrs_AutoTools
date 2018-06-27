@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-27 11:33:27
+ * @Last Modified time: 2018-06-27 11:51:44
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -17,7 +17,7 @@ const P = require("gulp-load-plugins")();
 const args = minimist(process.argv.slice(2));
 
 /**
- *  同步覆盖 game_base 的 giftConfig.json
+ *  同步覆盖 game_base 和 lrs 的 giftConfig.json
  *  必须指定源giftConfig.json路径或包含其目录路径
  */
 gulp.task("gift:up_conf", () => {
@@ -37,16 +37,16 @@ gulp.task("gift:up_conf", () => {
     }
     return gulp.src(file)
             .pipe(P.debug())
-            .pipe(gulp.dest(path.join(CONST.GameBase_Root, CONST.CommonPath, "config")));
+            .pipe(gulp.dest(path.join(CONST.GameBase_Root, CONST.CommonPath, "config")))
+            .pipe(gulp.dest(path.join(CONST.Lrs_Root, CONST.CommonPath, "config")));
 });
 
 /**
- *  同步覆盖 game_base 的 .exml 文件
+ *  同步覆盖 game_base 和 lrs 的 .exml 文件
  *  必须指定源 .exml 路径或包含其目录路径
  */
 gulp.task("gift:up_skin", () => {
     let file = args.file;
-    let toLrs = !!args.l;
     if (!file) {
         throw new PluginError("gift:up_skin", "YOU MUST SPECIFY A FILE OR DIRECTORY");
     }
@@ -60,10 +60,10 @@ gulp.task("gift:up_skin", () => {
         file = path.join(file, "**/*.exml");
     }
     
-    let root = toLrs ? CONST.Lrs_Root : CONST.GameBase_Root;
     return gulp.src(file)
                 .pipe(P.debug())
-                .pipe(gulp.dest(path.join(root, CONST.CommonPath, "skins")));
+                .pipe(gulp.dest(path.join(CONST.GameBase_Root, CONST.CommonPath, "skins")))
+                .pipe(gulp.dest(path.join(CONST.Lrs_Root, CONST.CommonPath, "skins")));
 });
 
 gulp.task("sounds:cpy_src", () => {
