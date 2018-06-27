@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-27 11:51:44
+ * @Last Modified time: 2018-06-27 18:15:26
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -22,6 +22,7 @@ const args = minimist(process.argv.slice(2));
  */
 gulp.task("gift:up_conf", () => {
     let file = args.file;
+    let del = args.del === false ? false : true;
     if (!file) {
         throw new PluginError("gift:up_conf", "YOU MUST SPECIFY A FILE OR DIRECTORY");
     }
@@ -37,6 +38,7 @@ gulp.task("gift:up_conf", () => {
     }
     return gulp.src(file)
             .pipe(P.debug())
+            .pipe(P.if(del, P.clean({force: true})))
             .pipe(gulp.dest(path.join(CONST.GameBase_Root, CONST.CommonPath, "config")))
             .pipe(gulp.dest(path.join(CONST.Lrs_Root, CONST.CommonPath, "config")));
 });
@@ -47,6 +49,7 @@ gulp.task("gift:up_conf", () => {
  */
 gulp.task("gift:up_skin", () => {
     let file = args.file;
+    let del = args.del === false ? false : true;
     if (!file) {
         throw new PluginError("gift:up_skin", "YOU MUST SPECIFY A FILE OR DIRECTORY");
     }
@@ -62,12 +65,13 @@ gulp.task("gift:up_skin", () => {
     
     return gulp.src(file)
                 .pipe(P.debug())
+                .pipe(P.if(del, P.clean({force: true})))
                 .pipe(gulp.dest(path.join(CONST.GameBase_Root, CONST.CommonPath, "skins")))
                 .pipe(gulp.dest(path.join(CONST.Lrs_Root, CONST.CommonPath, "skins")));
 });
 
 gulp.task("sounds:cpy_src", () => {
-    let del = !!args.del || true;
+    let del = args.del === false ? false : true;
     let files = args.file;
     if (!files) {
         throw new PluginError("sound:replace", "YOU MUST SPECFIY ONE OR MORE .mp3 FILES");
