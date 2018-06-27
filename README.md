@@ -37,7 +37,7 @@
   *  gulp gift:common_l2b      
   // 同步Lrs资源 => GameBase, 不包括音效
 
-  * gulp sounds:modify --file --del
+  * gulp sounds:modify --file --del   
   // 添加或覆盖新的音效资源到base，生成对应的res.json并同步给lrs、allSounds,最后同步common到lrs。__--file__, __--del__,参见sounds:cpy_src
   
  ### 快捷文件替换
