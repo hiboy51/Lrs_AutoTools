@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-14 14:15:03 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-21 19:38:05
+ * @Last Modified time: 2018-06-27 11:22:14
  */
 import gulp from "gulp";
 import path from "path";
@@ -171,6 +171,13 @@ gulp.task("sounds:added", gulp.series("sounds:gen_res", "beautify_res_json", () 
  * 必须指定参数--gid，参见task <asset:gen_res_b>
  */
 gulp.task("gift:gen_res", gulp.series("asset:gen_res_b", "icon:gen_res_b"));
+
+/**
+ * 添加或覆盖新的音效资源到base，生成对应的res.json并同步给lrs, allSounds,最后同步common到lrs
+ * 必须指定一个或多个音效文件路径(--file)
+ * 可选参数(--del)， 默认值true，表示拷贝后删除源文件
+ */
+gulp.task("sounds:modify", gulp.series("sound:cpy_src", "sound:added", "sounds", "gift:common_b2l"));
 
 /** 来个全套 */
 gulp.task("default", gulp.series("gift:gen_res", "gift:b2l"));
