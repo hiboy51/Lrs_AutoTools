@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 19:23:36 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-21 16:16:55
+ * @Last Modified time: 2018-06-27 16:32:08
  */
 import through from "through2";
 import path from "path";
@@ -49,15 +49,21 @@ function handleSheet(json, filename) {
     });
 }
 
-function handlePicture(json, filename) {
+function handlePicture(json, filename, base) {
     let fileKey = filename.replace(".", "_");
     let resources = json.resources;
     let gid = Utils.getGiftId(filename, "res");
-    let fakeName = `gift_${gid}${path.extname(filename)}`;
-    if (fakeName == filename) {     // 排除图集的png
+
+    // 排除图集的png
+    // 如果有同名.json文件，则判定为图集
+    let ext = path.extname(filename);
+    let fakeName = `${filename.replace(ext, "")}.json`;
+    let stat = fs.statSync(path.join(base, fakeName));
+    if (stat && stat.isFile()) {
+        console.log(`skip sheet: ${filename} exists ${fakeName}`);
         return;
     }
-
+    
     let group = Utils.getGroup(json, gid);
     appendGroup(group, fileKey);
 
@@ -76,6 +82,7 @@ module.exports = function (resJsonPath) {
         }
 
         let fn = file.relative;
+        let base = file.base;
         let ext = path.extname(fn);
         if (ext in CARES) {
             let content = fs.readFileSync(resJsonPath).toString("utf-8");
@@ -84,7 +91,7 @@ module.exports = function (resJsonPath) {
                 handleSheet(json, fn);
             }
             else {
-                handlePicture(json, fn);
+                handlePicture(json, fn, base);
             }
             fs.writeFileSync(resJsonPath, JSON.stringify(json));
         }
