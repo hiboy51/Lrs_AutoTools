@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-27 18:15:26
+ * @Last Modified time: 2018-06-27 18:38:55
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -49,20 +49,25 @@ gulp.task("gift:up_conf", () => {
  */
 gulp.task("gift:up_skin", () => {
     let file = args.file;
-    let del = args.del === false ? false : true;
+    let del = !!args.del;
     if (!file) {
-        throw new PluginError("gift:up_skin", "YOU MUST SPECIFY A FILE OR DIRECTORY");
+        throw new PluginError("gift:up_skin", "YOU MUST SPECIFY ONE OR MORE FILE OR DIRECTORY");
     }
-    let stat = fs.statSync(file);
-    if (stat.isFile()) {
-        if (path.extname(file) != ".exml") {
-            throw new PluginError("gift:up_skin", "YOU MUST SPECIFY A EXML FILE");
-        }
-    }
-    if (stat.isDirectory()) {
-        file = path.join(file, "**/*.exml");
-    }
-    
+    file = file.split(",")
+            .map(f => {
+                let stat = fs.statSync(f);
+                if (stat.isDirectory()) {
+                    return path.join(f, "**/*.exml");
+                }
+                if (stat.isFile()) {
+                    if (path.extname(f) != ".exml") {
+                        throw new PluginError("gift:up_skin", "YOU MUST SPECIFY A EXML FILE");
+                    }
+                    return f;
+                }
+                return f;
+            });
+
     return gulp.src(file)
                 .pipe(P.debug())
                 .pipe(P.if(del, P.clean({force: true})))
