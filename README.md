@@ -57,13 +57,13 @@
   * gulp skin:add --dir --name
 
 ### 最佳实践
-  1.处理并拷贝图集到base
-  2.__`gulp gift:up_skin --dir`__  拷贝.exml到base
-  3.__`gulp --gid`__ 或者 __`gulp gift:gen_res --gid`__ 处理base新增资源（同步到lrs)
-  4.修改giftEffcetGift.ts
-  5.__`gulp gift:player_b2l`__ 或 __`gulp gift:player l2b`__  同步giftEffectGift.ts
-  6.__`gulp sounds:modify --file`__ 处理新增音效资源,并同步
+  1. 处理并拷贝图集到base    
+  2. __`gulp gift:up_skin --dir`__  拷贝.exml到base   
+  3. __`gulp --gid`__ 或者 __`gulp gift:gen_res --gid`__ 处理base新增资源（同步到lrs)    
+  4. 修改giftEffcetGift.ts   
+  5. __`gulp gift:player_b2l`__ 或 __`gulp gift:player l2b`__  同步giftEffectGift.ts    
+  6. __`gulp sounds:modify --file`__ 处理新增音效资源,并同步    
 
-  +调整配置:__`gulp gift:up_conf --file`__
-  +调整动画:__`gulp gift:up_skin --file`__
-  +将原图归档:__`gulp gift:cpy_src --dir`__
+  * 调整配置:__`gulp gift:up_conf --file`__
+  * 调整动画:__`gulp gift:up_skin --file`__
+  * 将原图归档:__`gulp gift:cpy_src --dir`__
