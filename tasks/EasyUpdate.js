@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-27 11:23:47
+ * @Last Modified time: 2018-06-27 11:33:27
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -76,11 +76,11 @@ gulp.task("sounds:cpy_src", () => {
     let toBase = path.join(CONST.GameBase_Root, CONST.SoundsPath);
     let toSounds = path.join(CONST.Sounds_Root, "allSounds");
     let toLrs = path.join(CONST.Lrs_Root, CONST.SoundsPath);
-    gulp.src(files)
-        .pipe(P.debug)
-        .pipe(P.if(del, P.clean({force: true})))
-        .pipe(gulp.dest(to))
-        .pipe(gulp.dest(toSounds))
-        .pipe(gulp.dest(toLrs));
+    return gulp.src(files)
+            .pipe(P.debug())
+            .pipe(P.if(del, P.clean({force: true})))
+            .pipe(gulp.dest(toBase))
+            .pipe(gulp.dest(toSounds))
+            .pipe(gulp.dest(toLrs));
 });
 

@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-14 14:15:03 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-27 11:22:14
+ * @Last Modified time: 2018-06-27 11:32:21
  */
 import gulp from "gulp";
 import path from "path";
@@ -177,7 +177,7 @@ gulp.task("gift:gen_res", gulp.series("asset:gen_res_b", "icon:gen_res_b"));
  * 必须指定一个或多个音效文件路径(--file)
  * 可选参数(--del)， 默认值true，表示拷贝后删除源文件
  */
-gulp.task("sounds:modify", gulp.series("sound:cpy_src", "sound:added", "sounds", "gift:common_b2l"));
+gulp.task("sounds:modify", gulp.series("sounds:cpy_src", "sounds:added", "sounds", "gift:common_b2l"));
 
 /** 来个全套 */
 gulp.task("default", gulp.series("gift:gen_res", "gift:b2l"));
