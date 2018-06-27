@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-26 15:22:31
+ * @Last Modified time: 2018-06-27 10:21:28
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -63,5 +63,5 @@ gulp.task("gift:up_skin", () => {
     let root = toLrs ? CONST.Lrs_Root : CONST.GameBase_Root;
     return gulp.src(file)
                 .pipe(P.debug())
-                .pipe(gulp.dest(path.join(toLrs, CONST.CommonPath, "skins")));
+                .pipe(gulp.dest(path.join(root, CONST.CommonPath, "skins")));
 });
