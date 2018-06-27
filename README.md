@@ -50,7 +50,7 @@
   * gulp gift:up_skin --file --l                 
   // 替换GameBase的动画文件(.exml)，必须指定（--file）源路径或包含源文件目录,__*可选参数(--l)，拷贝到lrs目录下，否则base目录*__
 
-  * gulp sounds:cpy_src --file --del
+  * gulp sounds:cpy_src --file --del    
   // 替换音效资源到GameBase、lrs、allSounds， 必须指定(--file)一个或多个音效文件路径，以逗号隔开，--del默认值true，标识考背后删除源文件
 
 ### 处理皮肤
