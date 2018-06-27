@@ -66,4 +66,5 @@
 
   * 调整配置:__`gulp gift:up_conf --file`__
   * 调整动画:__`gulp gift:up_skin --file`__
-  * 将原图归档:__`gulp gift:cpy_src --dir`__
+  * 将原图归档:__`gulp gift:cpy_src --dir`__   
+  * 替换音效:__`gulp sounds:cpy_src --file --del`__
