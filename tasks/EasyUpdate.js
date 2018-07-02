@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-27 18:38:55
+ * @Last Modified time: 2018-07-02 15:09:17
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -75,21 +75,34 @@ gulp.task("gift:up_skin", () => {
                 .pipe(gulp.dest(path.join(CONST.Lrs_Root, CONST.CommonPath, "skins")));
 });
 
-gulp.task("sounds:cpy_src", () => {
-    let del = args.del === false ? false : true;
-    let files = args.file;
-    if (!files) {
-        throw new PluginError("sound:replace", "YOU MUST SPECFIY ONE OR MORE .mp3 FILES");
-    }
-    files = files.split(",");
+let cpy_src = (files, del, tol) => {
     let toBase = path.join(CONST.GameBase_Root, CONST.SoundsPath);
     let toSounds = path.join(CONST.Sounds_Root, "allSounds");
     let toLrs = path.join(CONST.Lrs_Root, CONST.SoundsPath);
     return gulp.src(files)
             .pipe(P.debug())
             .pipe(P.if(del, P.clean({force: true})))
-            .pipe(gulp.dest(toBase))
-            .pipe(gulp.dest(toSounds))
+            .pipe(P.if(!tol, gulp.dest(toBase)))
+            .pipe(P.if(!tol, gulp.dest(toSounds)))
             .pipe(gulp.dest(toLrs));
+};
+
+gulp.task("sounds:cpy_src", () => {
+    let del = args.del === false ? false : true;
+    let files = args.file;
+    if (!files) {
+        throw new PluginError("sound:cpy_src", "YOU MUST SPECFIY ONE OR MORE .mp3 FILES");
+    }
+    files = files.split(",");
+    return cpy_src(files, del, false);
 });
 
+gulp.task("sounds:cpy_src_2l", () => {
+    let del = args.del === false ? false : true;
+    let files = args.file;
+    if (!files) {
+        throw new PluginError("sound:cpy_src_2l", "YOU MUST SPECFIY ONE OR MORE .mp3 FILES");
+    }
+    files = files.split(",");
+    return cpy_src(files, del, true);
+});

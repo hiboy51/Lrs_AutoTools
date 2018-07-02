@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:30 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-21 17:59:00
+ * @Last Modified time: 2018-07-02 14:49:38
  */
 
 import compareDir from "dir-compare";
@@ -95,6 +95,11 @@ utils.uniqueArray = function (array) {
     return array.filter((item, index, arr) => {
         return arr.indexOf(item) == index;
     });
+};
+
+/** 组合函数 */
+utils.compose = function(f, g) {
+    return (arg) => f(g(arg));
 };
 
 module.exports = utils;
