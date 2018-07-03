@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 10:44:32 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-21 19:43:22
+ * @Last Modified time: 2018-07-03 14:22:31
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -19,7 +19,7 @@ gulp.task("gift:cpy_src", done => {
         throw new PluginError("cpy_src", "YOU MUST SPECIFY ONE OR MORE DIRECTORY");
     }
 
-    let dirs =  Utils.uniqueArray(args.dir.split(","));
+    let dirs =  Utils.uniqueArray(args.dir.split(",").map(f => f.trim()));
     let glob = dirs.map(each => path.join(each, "**/*"))
                 .concat(dirs.map(each => `!${path.join(each, "**/*.exml")}`));
     return gulp.src(glob)

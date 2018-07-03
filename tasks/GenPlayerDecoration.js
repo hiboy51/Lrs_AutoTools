@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-07-02 19:58:10 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-03 11:33:59
+ * @Last Modified time: 2018-07-03 14:25:47
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -112,5 +112,7 @@ gulp.task("decoration:added", () => {
                 path.dirname = "";
             }))
             .pipe(gulp.dest(toEffect))
-    ).pipe(P.errorHandle());
+    )
+    .pipe(P.debug())
+    .pipe(P.errorHandle());
 });

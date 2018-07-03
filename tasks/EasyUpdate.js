@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-02 15:09:17
+ * @Last Modified time: 2018-07-03 14:20:28
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -55,6 +55,7 @@ gulp.task("gift:up_skin", () => {
     }
     file = file.split(",")
             .map(f => {
+                f = f.trim();
                 let stat = fs.statSync(f);
                 if (stat.isDirectory()) {
                     return path.join(f, "**/*.exml");
@@ -93,7 +94,7 @@ gulp.task("sounds:cpy_src", () => {
     if (!files) {
         throw new PluginError("sound:cpy_src", "YOU MUST SPECFIY ONE OR MORE .mp3 FILES");
     }
-    files = files.split(",");
+    files = files.split(",").map(f => f.trim());
     return cpy_src(files, del, false);
 });
 
@@ -103,6 +104,6 @@ gulp.task("sounds:cpy_src_2l", () => {
     if (!files) {
         throw new PluginError("sound:cpy_src_2l", "YOU MUST SPECFIY ONE OR MORE .mp3 FILES");
     }
-    files = files.split(",");
+    files = files.split(",").map(f => f.trim());
     return cpy_src(files, del, true);
 });
