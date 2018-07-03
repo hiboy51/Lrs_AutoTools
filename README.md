@@ -38,7 +38,10 @@
   // 同步Lrs资源 => GameBase, 不包括音效
 
   * gulp sounds:modify --file --del   
-  // 添加或覆盖新的音效资源到base，生成对应的res.json并同步给lrs、allSounds,最后同步common到lrs。__--file__, __--del__,参见sounds:cpy_src
+  // 添加或覆盖新的音效资源到base，生成对应的res.json并同步给lrs、allSounds,最后同步common到lrs。__--file__, __--del__,参见sounds:cpy_src   
+  
+  * gulp decoration:added --dir   
+  // 处理新增装饰道具（聊天框，头像框，入场特效框）。拷贝指定目录下的资源到对应目录，并补充对应的res.json文件   
   
  ### 快捷文件替换
   *  gulp gift:cpy_src --dir aaa|aaa,bbb      
