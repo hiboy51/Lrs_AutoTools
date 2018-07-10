@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-07-02 19:58:10 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-03 15:10:39
+ * @Last Modified time: 2018-07-10 11:29:18
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -37,7 +37,7 @@ function filterBagItem(file, groups, resource) {
     let group = groups.filter(e => e.name == "modulereload_hghall")[0];
     let karr = group.keys.split(",");
     karr.push(key);
-    group.keys = karr.join(",").sort();
+    group.keys = karr.sort().join(",");
 
     resource.push({
         "url": path.join("hghall/assert/bag", fn),
@@ -83,8 +83,8 @@ gulp.task("decoration:added", () => {
     let filter = (arr) => {
         return P.filterEach((_, filepath) => {
             let fn = path.basename(filepath);
-            let notIn = arr.every(e => fn.indexOf(e) == -1);
-            return !notIn; 
+            let contain = arr.some(e => fn.indexOf(e) != -1);
+            return contain; 
         });
     };
 
