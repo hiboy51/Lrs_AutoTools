@@ -54,7 +54,7 @@
   // 替换GameBase和lrs的动画文件(.exml)，必须指定（--file）源路径或包含源文件目录 __`一个或多个，以逗号隔开`__ , --del默认值 __false__，标识拷贝后删除源文件
 
   * gulp sounds:cpy_src --file --del    
-  // 替换音效资源到GameBase、lrs、allSounds， 必须指定(--file)一个或多个音效文件路径，以逗号隔开，--del默认值true，标识拷贝后删除源文件
+  // 替换音效资源到GameBase、lrs、allSounds， 必须指定(--file)一个或多个音效文件路径(或目录)，以逗号隔开，--del默认值true，标识拷贝后删除源文件
 
 ### 处理皮肤
   * gulp skin:add --dir --name
