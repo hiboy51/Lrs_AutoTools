@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 19:23:36 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-27 16:32:08
+ * @Last Modified time: 2018-07-12 12:19:29
  */
 import through from "through2";
 import path from "path";
@@ -16,12 +16,17 @@ const GameBase_Root = "/Users/momo/game_base";
 const CommonPath = "resource/common";
 
 function appendGroup(group, fileKey) {
+    if (group.keys.indexOf(fileKey) != -1) {
+        return false;
+    }
+
     if (group.keys == "") {
         group.keys = fileKey;
     }
     else {
         group.keys += `,${fileKey}`;
     }
+    return true;
 }
 
 function getSheetJsonSubkeys(sheet) {
@@ -39,8 +44,13 @@ function handleSheet(json, filename) {
     let resources = json.resources;
     let gid = Utils.getGiftId(filename, "res");
     let group = Utils.getGroup(json, gid);
-    appendGroup(group, fileKey);
-
+    let succ = appendGroup(group, fileKey);
+    if (!succ) {
+        resources
+            .filter(e => e.name == fileKey)
+            .map(e => e.subkeys = getSheetJsonSubkeys(filename));
+        return;
+    }
     resources.push({
         "url": path.join(ROOT, filename),
         "type": "sheet",
@@ -58,15 +68,22 @@ function handlePicture(json, filename, base) {
     // 如果有同名.json文件，则判定为图集
     let ext = path.extname(filename);
     let fakeName = `${filename.replace(ext, "")}.json`;
-    let stat = fs.statSync(path.join(base, fakeName));
-    if (stat && stat.isFile()) {
-        console.log(`skip sheet: ${filename} exists ${fakeName}`);
-        return;
+    try {
+        let stat = fs.statSync(path.join(base, fakeName));
+        if (stat && stat.isFile()) {
+            console.log(`skip sheet: ${filename} exists ${fakeName}`);
+            return;
+        }
+    }
+    catch (e) {
+        
     }
     
     let group = Utils.getGroup(json, gid);
-    appendGroup(group, fileKey);
-
+    let succ = appendGroup(group, fileKey);
+    if (!succ) {
+        return;
+    }
     resources.push({
         "url": path.join(ROOT, filename),
         "type": "image",

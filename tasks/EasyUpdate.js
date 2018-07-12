@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-10 17:12:49
+ * @Last Modified time: 2018-07-12 12:17:34
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -71,6 +71,9 @@ gulp.task("gift:up_skin", () => {
     return gulp.src(file)
                 .pipe(P.debug())
                 .pipe(P.if(del, P.clean({force: true})))
+                .pipe(P.rename(path => {
+                    path.dirname = "";
+                }))
                 .pipe(gulp.dest(path.join(CONST.GameBase_Root, CONST.CommonPath, "skins")))
                 .pipe(gulp.dest(path.join(CONST.Lrs_Root, CONST.CommonPath, "skins")));
 });

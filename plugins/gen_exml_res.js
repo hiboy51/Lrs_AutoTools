@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 18:47:50 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-21 14:55:31
+ * @Last Modified time: 2018-07-12 11:37:20
  */
 import through from "through2";
 import path from "path";
@@ -16,12 +16,14 @@ function genResJson(resJsonPath, filename) {
     let json = JSON.parse(resJson);
 
     let group = Utils.getGroup(json, gid);
-    if (group.keys == "") {
-        group.keys += `${filekey}`;
+    let kArr = group.keys.split(",");
+    let newKey = `${filekey}`;
+    if (kArr.indexOf(newKey) != -1) {   // 已存在
+        return json;
     }
-    else {
-        group.keys += `,${filekey}`;
-    }
+    
+    kArr.push(newKey);
+    group.keys = kArr.join(",");
 
     let resources = json.resources;
     resources.push({
