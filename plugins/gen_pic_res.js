@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 19:23:36 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-12 12:19:29
+ * @Last Modified time: 2018-07-14 11:42:59
  */
 import through from "through2";
 import path from "path";
@@ -19,7 +19,6 @@ function appendGroup(group, fileKey) {
     if (group.keys.indexOf(fileKey) != -1) {
         return false;
     }
-
     if (group.keys == "") {
         group.keys = fileKey;
     }

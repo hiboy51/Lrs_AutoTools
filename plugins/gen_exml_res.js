@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 18:47:50 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-12 11:37:20
+ * @Last Modified time: 2018-07-14 11:42:46
  */
 import through from "through2";
 import path from "path";
@@ -16,9 +16,10 @@ function genResJson(resJsonPath, filename) {
     let json = JSON.parse(resJson);
 
     let group = Utils.getGroup(json, gid);
-    let kArr = group.keys.split(",");
+    let kArr = group.keys.split(",").filter(i => i != "");
     let newKey = `${filekey}`;
     if (kArr.indexOf(newKey) != -1) {   // 已存在
+        console.log("exsited: " + newKey);
         return json;
     }
     
