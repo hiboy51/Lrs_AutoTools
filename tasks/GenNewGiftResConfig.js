@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-06-21 16:19:51
+ * @Last Modified time: 2018-07-16 15:33:23
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -13,6 +13,8 @@ import gen_pic from "../plugins/gen_pic_res";
 import path from "path";
 import stringify from "../plugins/stringify";
 import gen_icon from "../plugins/gen_icon_res";
+import mod_json from "../plugins/modify_res_json";
+import Utils from "../utils/utils";
 
 const $ = require("gulp-load-plugins")();
 const GameBase_Root = "/Users/momo/game_base";
@@ -66,11 +68,37 @@ gulp.task("gen_res_icons", done => {
                 .pipe($.errorHandle());
 });
 
+gulp.task("gift:clear_res_b", gulp.series(done => {
+    let gid = args.gid;
+    if (!gid) {
+         throw new PluginError("gift:clear_res_b", "YOU MUST SPECIFY ONE OR MORE GIFT ID VIA --gid");
+    }
+    gid = gid.split(",").filter(e => e != "");
+    return gulp.src(res_json_path)
+             .pipe($.jsonEditor(json => {
+                 gid.forEach(id => {
+                    let resources = json.resources;
+                    let groups = json.groups;
+                    let group = Utils.getGroup(json, id, false);
+                    if (!group) {
+                        console.log(`${id} not defined`);
+                        return;    // 没有该组
+                    }
+                    
+                    let keys = group.keys;
+                    json.resources = resources.filter(r => keys.indexOf(r.name) == -1);
+                    json.groups = groups.filter(g => g != group);
+                 });
+                 return json;
+             }))
+             .pipe(gulp.dest(path.join(GameBase_Root, CommonPath)));
+ }, "beautify_res_json"));
+
 /**
  *  自动将新增礼物资源追加到common.res.json中
  *  必须指定参数--gid,以逗号隔开
  *  */
-gulp.task("asset:gen_res_b", gulp.series("gen_res_json", "beautify_res_json"));
+gulp.task("asset:gen_res_b", gulp.series("gift:clear_res_b", "gen_res_json", "beautify_res_json"));
 
 /**
  * 自动更新icon图集到common.res.json中

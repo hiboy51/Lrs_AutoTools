@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:30 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-12 11:54:29
+ * @Last Modified time: 2018-07-16 14:52:50
  */
 
 import compareDir from "dir-compare";
@@ -58,7 +58,7 @@ utils.getGiftId = function (filename, type) {
     return gid;
 };
 
-utils.getGroup = function (json, gid) {
+utils.getGroup = function (json, gid, create = true) {
     const gkey = `giftCom_${gid}`;
     let groups = json.groups;
     let gname;
@@ -77,6 +77,11 @@ utils.getGroup = function (json, gid) {
             return groups[i];
         }
     }
+
+    if (!create) {
+        return null;
+    }
+
     let ng = {
         "keys": "",
         "name": gkey
