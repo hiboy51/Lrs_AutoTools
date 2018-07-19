@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-19 20:14:26
+ * @Last Modified time: 2018-07-19 20:18:46
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -42,27 +42,27 @@ gulp.task("tinify", done => {
             .pipe(gulp.dest("/Users/momo/Downloads/张敬林"));
 });
 
-gulp.task("compression_pic", done => {
+gulp.task("compress_pic", done => {
     let gid = args.gid;
-    let compress = !!args.compress;
+    let comp = !!args.compress;
     if (!gid) {
-        throw new PluginError("compression_png:id", "YOU MUST SPECIFY ONE OR MORE GIFT ID VIA --gid");
+        throw new PluginError("compress_pic:id", "YOU MUST SPECIFY ONE OR MORE GIFT ID VIA --gid");
     }
     gid = gid.split(",");
 
     const assetPath = path.join(GameBase_Root, CommonPath, "assets/giftNew");
 
-    if (!compress) {
+    if (!comp) {
         return done();
     }
 
     return gulp.src(path.join(assetPath, "**/*"))
             .pipe(filter_gift(gid))
             .pipe(compress())
-            .pipe(assetPath);
+            .pipe(gulp.dest(assetPath));
 });
 
-gulp.task("gen_res_json", gulp.series("compression_pic", done => { 
+gulp.task("gen_res_json", gulp.series("compress_pic", done => { 
     let gid = args.gid;
     if (!gid) {
         throw new PluginError("gen_res_b:id", "YOU MUST SPECIFY ONE OR MORE GIFT ID VIA --gid");

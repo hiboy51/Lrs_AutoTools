@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-07-19 19:21:01 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-19 19:57:21
+ * @Last Modified time: 2018-07-19 20:20:52
  */
 import through from "through2";
 import Utils from "../utils/utils";
@@ -31,6 +31,9 @@ module.exports = function () {
                 this.push(file);
                 callback();
             });
+        }
+        else {
+            return callback();
         }
     });
 };
