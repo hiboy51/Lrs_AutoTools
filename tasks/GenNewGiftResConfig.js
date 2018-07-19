@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-19 20:06:30
+ * @Last Modified time: 2018-07-19 20:14:26
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -44,7 +44,7 @@ gulp.task("tinify", done => {
 
 gulp.task("compression_pic", done => {
     let gid = args.gid;
-    let compress = args.compress == undefined ? true : !!args.compress;
+    let compress = !!args.compress;
     if (!gid) {
         throw new PluginError("compression_png:id", "YOU MUST SPECIFY ONE OR MORE GIFT ID VIA --gid");
     }
