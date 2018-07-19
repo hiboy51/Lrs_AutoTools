@@ -10,7 +10,7 @@
   *  gulp                    
   // default任务，根据GameBase里新增的资源，补充相应common.res.json，并将`所有关联`同步给Lrs, 必须指定 --gid
   
-  *  gulp gift:gen_res --gid aaa|aaa,bbb  --compress
+  *  gulp gift:gen_res --gid aaa|aaa,bbb  --compress    
   // 根据GameBase里新增的资源，补充相应common.res.json, 必须指定 __--gid__, 可选参数 __--compress__ 支持压缩图片文件
   
   *  gulp sounds:added (--delete)           
