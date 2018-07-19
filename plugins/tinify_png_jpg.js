@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-07-19 19:21:01 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-19 20:20:52
+ * @Last Modified time: 2018-07-19 20:33:19
  */
 import through from "through2";
 import Utils from "../utils/utils";
@@ -21,9 +21,8 @@ module.exports = function () {
 
         let fn = path.basename(file.relative);
         let ext = path.extname(fn);
-        console.log(ext);
         if ([".png", ".jpg"].some(e => e == ext) && file.isBuffer()) {
-            console.log("start compress");
+            console.log(`start compress ${fn}`);
             tinify.fromBuffer(file.contents).toBuffer((err, resultData) => {
                 if (err) throw err;
                 
