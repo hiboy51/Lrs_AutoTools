@@ -8,13 +8,13 @@
 
 ### 几个重要任务
   *  gulp                    
-  // default任务，根据GameBase里新增的资源，补充相应common.res.json，并将`所有关联`同步给Lrs, 必须指定 --gid
+  // default任务，根据GameBase里新增的资源，补充相应common.res.json，并将`所有关联`同步给Lrs, 必须指定 __--gid__
   
   *  gulp gift:gen_res --gid aaa|aaa,bbb  --compress    
   // 根据GameBase里新增的资源，补充相应common.res.json, 必须指定 __--gid__, 可选参数 __--compress__ 支持压缩图片文件
   
   *  gulp sounds:added (--delete)           
-  // 根据Lrs里新增的音效资源,同步GameBase并补充其common.res.json，可选参数 --delete 同步删除common.res.json中没有的资源项
+  // 根据Lrs里新增的音效资源,同步GameBase并补充其common.res.json，可选参数 __--delete__ 同步删除common.res.json中没有的资源项
   
   *  gulp sounds                
   // 同步GameBase中所有音效文件到 Lrs 和 allSounds
@@ -38,7 +38,7 @@
   // 同步Lrs资源 => GameBase, 不包括音效   
 
   * gulp gift:clear_res_b --gid   
-  // 删除指定gid的礼物资源配置
+  // 删除指定 __gid__ 的礼物资源配置
 
   * gulp sounds:modify --file --del   
   // 添加或覆盖新的音效资源到base，生成对应的res.json并同步给lrs、allSounds,最后同步common到lrs。__--file__, __--del__,参见sounds:cpy_src   
@@ -48,16 +48,16 @@
   
  ### 快捷文件替换
   *  gulp gift:cpy_src --dir aaa|aaa,bbb      
-  // 拷贝原图，必须指定（--dir）源路径，可以多个以逗号隔开
+  // 拷贝原图，必须指定（__--dir__）源路径，可以多个以逗号隔开
   
   * gulp gift:up_conf --file --del                
-  // 替换GameBase和lrs的giftConfig.json，必须指定（--file）源路径或包含源文件目录, --del默认值 __true__，标识拷贝后删除源文件
+  // 替换GameBase和lrs的giftConfig.json，必须指定（__--file__）源路径或包含源文件目录, __--del__ 默认值 __true__，标识拷贝后删除源文件
   
   * gulp gift:up_skin --file --del                
-  // 替换GameBase和lrs的动画文件(.exml)，必须指定（--file）源路径或包含源文件目录 __`一个或多个，以逗号隔开`__ , --del默认值 __false__，标识拷贝后删除源文件
+  // 替换GameBase和lrs的动画文件(.exml)，必须指定（__--file__）源路径或包含源文件目录 __`一个或多个，以逗号隔开`__ , __--del__ 默认值 __false__，标识拷贝后删除源文件
 
   * gulp sounds:cpy_src --file --del    
-  // 替换音效资源到GameBase、lrs、allSounds， 必须指定(--file)一个或多个音效文件路径(或目录)，以逗号隔开，--del默认值true，标识拷贝后删除源文件
+  // 替换音效资源到GameBase、lrs、allSounds， 必须指定(__--file__)一个或多个音效文件路径(或目录)，以逗号隔开，__--del__ 默认值true，标识拷贝后删除源文件
 
 ### 处理皮肤
   * gulp skin:add --dir --name
