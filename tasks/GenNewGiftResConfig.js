@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-16 15:33:23
+ * @Last Modified time: 2018-07-19 20:06:30
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -15,6 +15,7 @@ import stringify from "../plugins/stringify";
 import gen_icon from "../plugins/gen_icon_res";
 import mod_json from "../plugins/modify_res_json";
 import Utils from "../utils/utils";
+import compress from "../plugins/tinify_png_jpg";
 
 const $ = require("gulp-load-plugins")();
 const GameBase_Root = "/Users/momo/game_base";
@@ -30,7 +31,38 @@ const GiftID = {
 };
 
 let args = minimist(process.argv.slice(2), GiftID);
-gulp.task("gen_res_json", done => { 
+
+/** 用于测试 */
+gulp.task("tinify", done => {
+    let file = args.file;
+    
+    return gulp.src(file)
+            .pipe(compress())
+            .pipe($.debug())
+            .pipe(gulp.dest("/Users/momo/Downloads/张敬林"));
+});
+
+gulp.task("compression_pic", done => {
+    let gid = args.gid;
+    let compress = args.compress == undefined ? true : !!args.compress;
+    if (!gid) {
+        throw new PluginError("compression_png:id", "YOU MUST SPECIFY ONE OR MORE GIFT ID VIA --gid");
+    }
+    gid = gid.split(",");
+
+    const assetPath = path.join(GameBase_Root, CommonPath, "assets/giftNew");
+
+    if (!compress) {
+        return done();
+    }
+
+    return gulp.src(path.join(assetPath, "**/*"))
+            .pipe(filter_gift(gid))
+            .pipe(compress())
+            .pipe(assetPath);
+});
+
+gulp.task("gen_res_json", gulp.series("compression_pic", done => { 
     let gid = args.gid;
     if (!gid) {
         throw new PluginError("gen_res_b:id", "YOU MUST SPECIFY ONE OR MORE GIFT ID VIA --gid");
@@ -45,7 +77,7 @@ gulp.task("gen_res_json", done => {
         .pipe(gen_exml(res_json_path))
         .pipe(gen_pic(res_json_path))
         .pipe($.errorHandle());
-});
+}));
 
 gulp.task("beautify_res_json", done => {
     return gulp.src(res_json_path)

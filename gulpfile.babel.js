@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-14 14:15:03 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-02 15:07:03
+ * @Last Modified time: 2018-07-19 20:03:11
  */
 import gulp from "gulp";
 import path from "path";
@@ -169,6 +169,7 @@ gulp.task("sounds:added", gulp.series("sounds:gen_res", "beautify_res_json", () 
  * 自动注册礼物资源配置到common.res.json中
  * 包括动画资源和图标资源
  * 必须指定参数--gid，参见task <asset:gen_res_b>
+ * 可选参数 --compress, 支持压缩图片文件
  */
 gulp.task("gift:gen_res", gulp.series("asset:gen_res_b", "icon:gen_res_b"));
 
