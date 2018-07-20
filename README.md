@@ -8,7 +8,10 @@
 
 ### 几个重要任务
   *  gulp                    
-  // default任务，根据GameBase里新增的资源，补充相应common.res.json，并将`所有关联`同步给Lrs, 必须指定 __--gid__
+  // default任务，根据GameBase里新增的资源，补充相应common.res.json，并将`所有关联`同步给Lrs, 必须指定 __--gid__    
+
+  *  gulp gift:gen_sheet --dir    
+  // 自动合图，自动提取文件名中的*gid*,生成的礼物合图(gift_*gid*.json)将拷贝到GameBase里。 __--dir__ 指定原图目录（可以多个，以逗号隔开）   
   
   *  gulp gift:gen_res --gid aaa|aaa,bbb  --compress    
   // 根据GameBase里新增的资源，补充相应common.res.json, 必须指定 __--gid__, 可选参数 __--compress__ 支持压缩图片文件
