@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-17 11:51:49
+ * @Last Modified time: 2018-07-20 16:26:58
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -14,7 +14,7 @@ import fs from "fs";
 import { AssertionError } from "assert";
 
 const P = require("gulp-load-plugins")();
-const args = minimist(process.argv.slice(2));
+let args = minimist(process.argv.slice(2));
 
 /**
  *  同步覆盖 game_base 和 lrs 的 giftConfig.json
@@ -48,6 +48,7 @@ gulp.task("gift:up_conf", () => {
  *  必须指定源 .exml 路径或包含其目录路径
  */
 gulp.task("gift:up_skin", () => {
+    args = minimist(process.argv.slice(2));
     let file = args.file;
     let del = !!args.del;
     if (!file) {

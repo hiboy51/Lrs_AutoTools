@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-20 15:31:16
+ * @Last Modified time: 2018-07-20 16:23:33
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -64,7 +64,8 @@ gulp.task("compress_pic", done => {
             .pipe(gulp.dest(assetPath));
 });
 
-gulp.task("gen_res_json", gulp.series("compress_pic", done => { 
+gulp.task("gen_res_json", gulp.series("compress_pic", done => {
+    args = minimist(process.argv.slice(2), GiftID);
     let gid = args.gid;
     if (!gid) {
         throw new PluginError("gen_res_b:id", "YOU MUST SPECIFY ONE OR MORE GIFT ID VIA --gid");
@@ -103,6 +104,7 @@ gulp.task("gen_res_icons", done => {
 });
 
 gulp.task("gift:clear_res_b", gulp.series(done => {
+    args = minimist(process.argv.slice(2), GiftID);
     let gid = args.gid;
     if (!gid) {
          throw new PluginError("gift:clear_res_b", "YOU MUST SPECIFY ONE OR MORE GIFT ID VIA --gid");
@@ -134,6 +136,7 @@ gulp.task("gift:clear_res_b", gulp.series(done => {
  */
 gulp.task("gift:gen_sheet", done => {
     let dirs = args.dir;
+    Utils.simulateArgs("--file", dirs);                     // 为了跟后续任务连用，这里使用有点trick保持语义上的一致性
     if (!dirs) {
         throw new PluginError("gift:gen_sheet", "YOU MUST SPECIFY A OR MORE DIRECTORIES CONTAIN SOURCE PICTURES");
     }
@@ -145,7 +148,7 @@ gulp.task("gift:gen_sheet", done => {
     let gids = [];
     let next = (index) => {
         if (index == dirLen) {
-            args.gid = gids.join(",");      // 一点点魔术代码，为了跟其他任务连用，并保持一致性
+            Utils.simulateArgs("--gid", gids.join(","));    // 为了跟后续任务连用，这里使用有点trick保持语义上的一致性
             return done();
         }
         dir = dirs[index];

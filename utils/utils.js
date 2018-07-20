@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:30 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-16 14:52:50
+ * @Last Modified time: 2018-07-20 16:13:16
  */
 
 import compareDir from "dir-compare";
@@ -105,6 +105,12 @@ utils.uniqueArray = function (array) {
 /** 组合函数 */
 utils.compose = function(f, g) {
     return (arg) => f(g(arg));
+};
+
+/** 模拟命令行参数 */
+utils.simulateArgs = function(argName, args) {
+    process.argv.push(argName);
+    process.argv.push(args);  
 };
 
 module.exports = utils;
