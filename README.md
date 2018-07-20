@@ -54,7 +54,7 @@
   // 同步Lrs资源 => GameBase, 不包括音效   
   
  ### 快捷文件替换
-  *  gulp gift:cpy_src --dir aaa|aaa,bbb      
+  *  gulp gift:cpy_src --dir     
   // 拷贝原图，必须指定（__--dir__）源路径，可以多个以逗号隔开
   
   * gulp gift:up_conf --file --del                
