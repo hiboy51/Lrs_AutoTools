@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-19 20:18:46
+ * @Last Modified time: 2018-07-20 15:05:35
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -16,6 +16,8 @@ import gen_icon from "../plugins/gen_icon_res";
 import mod_json from "../plugins/modify_res_json";
 import Utils from "../utils/utils";
 import compress from "../plugins/tinify_png_jpg";
+import { exec } from "child_process";
+import fs from "fs";
 
 const $ = require("gulp-load-plugins")();
 const GameBase_Root = "/Users/momo/game_base";
@@ -125,6 +127,57 @@ gulp.task("gift:clear_res_b", gulp.series(done => {
              }))
              .pipe(gulp.dest(path.join(GameBase_Root, CommonPath)));
  }, "beautify_res_json"));
+
+/**
+ *  生成合图文件
+ *  --dir 源散图目录(可以多个)
+ */
+gulp.task("gift:gen_sheet", done => {
+    let dirs = args.dir;
+    if (!dirs) {
+        throw new PluginError("gift:gen_sheet", "YOU MUST SPECIFY A OR MORE DIRECTORIES CONTAIN SOURCE PICTURES");
+    }
+    dirs = dirs.split(",").filter(e => e != "");
+
+    let dirLen = dirs.length;
+    let dir, ext, gid, matches,
+        p, o, c;
+        
+    let next = (index) => {
+        if (index == dirLen) {
+            return done();
+        }
+        dir = dirs[index];
+        let files = fs.readdirSync(dir);
+        for (let f of files) {
+            if (fs.lstatSync(path.join(dir, f)).isDirectory()) {
+                continue;
+            }
+            ext = path.extname(f);
+            if ([".png", ".jpg"].indexOf(ext) == -1) {
+                continue;
+            } 
+            matches = f.match(/^[^\d]*(\d*)(?:.*)?$/);
+            if (matches != null) {
+                gid = matches[1];
+                break;
+            }
+        }
+        console.log(`current gid: ${gid}`);
+        
+        p = dirs.join(" ");
+        o =  path.join(GameBase_Root, CommonPath, "assets/giftNew", `gift_${gid}.json`);
+        c = `textureMerger -p ${p} -o ${o}`;
+        exec(c, (err, stdout, stderr) => {
+           if (err) {
+               console.log(err);
+           } 
+           next(++index);
+        });
+    };
+
+    next(0);
+});
 
 /**
  *  自动将新增礼物资源追加到common.res.json中
