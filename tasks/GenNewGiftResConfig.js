@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-20 16:23:33
+ * @Last Modified time: 2018-07-20 16:29:00
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -170,7 +170,7 @@ gulp.task("gift:gen_sheet", done => {
         console.log(`current gid: ${gid}`);
         gids.push(gid);
         
-        p = dirs.join(" ");
+        p = dir;
         o =  path.join(GameBase_Root, CommonPath, "assets/giftNew", `gift_${gid}.json`);
         c = `textureMerger -p ${p} -o ${o}`;
         exec(c, (err, stdout, stderr) => {
