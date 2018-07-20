@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-14 14:15:03 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-19 20:03:11
+ * @Last Modified time: 2018-07-20 15:51:02
  */
 import gulp from "gulp";
 import path from "path";
@@ -166,12 +166,13 @@ gulp.task("sounds:added", gulp.series("sounds:gen_res", "beautify_res_json", () 
 }));
 
 /**
+ * 处理新增资源（合图，压缩，注册）
  * 自动注册礼物资源配置到common.res.json中
  * 包括动画资源和图标资源
- * 必须指定参数--gid，参见task <asset:gen_res_b>
- * 可选参数 --compress, 支持压缩图片文件
+ * 必须指定参数--dir，参见task <gift:gen_sheet>
+ * 可选参数 --comp, 支持压缩图片文件
  */
-gulp.task("gift:gen_res", gulp.series("asset:gen_res_b", "icon:gen_res_b"));
+gulp.task("gift:gen_res", gulp.series("gift:gen_sheet", "gift:up_skin", "asset:gen_res_b", "icon:gen_res_b"));
 
 /**
  * 添加或覆盖新的音效资源到base，生成对应的res.json并同步给lrs, allSounds,最后同步common到lrs

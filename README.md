@@ -7,18 +7,31 @@
   **所有关联**：common目录 + player代码
 
 ### 几个重要任务
-  *  gulp                    
-  // default任务，根据GameBase里新增的资源，补充相应common.res.json，并将`所有关联`同步给Lrs, 必须指定 __--gid__    
+
+  #### 自动构建
+  *  (default) gulp --dir --comp                   
+  // default任务，从原图目录生成合图（压缩），拷贝相关文件到GameBase，注册相应common.res.json，并将`所有关联`同步给Lrs, 必须指定 __--dir__
+     __--comp__ 是否压缩合图    
 
   *  gulp gift:gen_sheet --dir    
   // 自动合图，自动提取文件名中的*gid*,生成的礼物合图(gift_*gid*.json)将拷贝到GameBase里。 __--dir__ 指定原图目录（可以多个，以逗号隔开）   
   
-  *  gulp gift:gen_res --gid aaa|aaa,bbb  --compress    
-  // 根据GameBase里新增的资源，补充相应common.res.json, 必须指定 __--gid__, 可选参数 __--compress__ 支持压缩图片文件
+  *  gulp gift:gen_res --dir  --comp        
+  // 同default,只在GameBase中处理   
+
+  * gulp gift:clear_res_b --gid    
+  // 删除指定 __gid__ 的礼物资源配置    
   
-  *  gulp sounds:added (--delete)           
-  // 根据Lrs里新增的音效资源,同步GameBase并补充其common.res.json，可选参数 __--delete__ 同步删除common.res.json中没有的资源项
+  *  gulp sounds:added               
+  // 根据Lrs里新增的音效资源,同步GameBase并补充其common.res.json，可选参数 __--delete__ 同步删除common.res.json中没有的资源项   
+
+  * gulp sounds:modify --file --del   
+  // 添加或覆盖新的音效资源到base，生成对应的res.json并同步给lrs、allSounds,最后同步common到lrs。__--file__, __--del__,参见sounds:cpy_src   
   
+  * gulp decoration:added --dir   
+  // 处理新增装饰道具（聊天框，头像框，入场特效框）。拷贝指定目录下的资源到对应目录，并补充对应的res.json文件   
+  
+  #### 拷贝同步
   *  gulp sounds                
   // 同步GameBase中所有音效文件到 Lrs 和 allSounds
   
@@ -39,15 +52,6 @@
   
   *  gulp gift:common_l2b      
   // 同步Lrs资源 => GameBase, 不包括音效   
-
-  * gulp gift:clear_res_b --gid   
-  // 删除指定 __gid__ 的礼物资源配置
-
-  * gulp sounds:modify --file --del   
-  // 添加或覆盖新的音效资源到base，生成对应的res.json并同步给lrs、allSounds,最后同步common到lrs。__--file__, __--del__,参见sounds:cpy_src   
-  
-  * gulp decoration:added --dir   
-  // 处理新增装饰道具（聊天框，头像框，入场特效框）。拷贝指定目录下的资源到对应目录，并补充对应的res.json文件   
   
  ### 快捷文件替换
   *  gulp gift:cpy_src --dir aaa|aaa,bbb      
@@ -66,12 +70,10 @@
   * gulp skin:add --dir --name
 
 ### 最佳实践
-  1. 处理并拷贝图集到base    
-  2. __`gulp gift:up_skin --dir`__  拷贝 __`.exml`__ 到 __base__   
-  3. __`gulp --gid`__ 或者 __`gulp gift:gen_res --gid`__ 处理 __base__ 新增资源（同步到 __lrs__ )    
-  4. 修改 __`giftEffcetGift.ts`__   
-  5. __`gulp gift:player_b2l`__ 或 __`gulp gift:player_l2b`__  同步 __`giftEffectGift.ts`__    
-  6. __`gulp sounds:modify --file`__ 处理新增音效资源,并同步    
+  1. __`gulp --dir --comp`__ 处理资源文件（自动合图，图片压缩，生成配置,同步模块） 
+  2. 修改 __`giftEffcetGift.ts`__  增加播放礼物的逻辑
+  3. __`gulp gift:player_b2l`__ 或 __`gulp gift:player_l2b`__  同步 __`giftEffectGift.ts`__    
+  4. __`gulp sounds:modify --file`__ 处理新增音效资源,并同步    
 
   * 调整配置:__`gulp gift:up_conf --file`__
   * 调整动画:__`gulp gift:up_skin --file`__

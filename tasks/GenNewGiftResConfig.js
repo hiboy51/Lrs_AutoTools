@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-20 15:05:35
+ * @Last Modified time: 2018-07-20 15:31:16
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -46,7 +46,7 @@ gulp.task("tinify", done => {
 
 gulp.task("compress_pic", done => {
     let gid = args.gid;
-    let comp = !!args.compress;
+    let comp = !!args.comp;
     if (!gid) {
         throw new PluginError("compress_pic:id", "YOU MUST SPECIFY ONE OR MORE GIFT ID VIA --gid");
     }
@@ -142,9 +142,10 @@ gulp.task("gift:gen_sheet", done => {
     let dirLen = dirs.length;
     let dir, ext, gid, matches,
         p, o, c;
-        
+    let gids = [];
     let next = (index) => {
         if (index == dirLen) {
+            args.gid = gids.join(",");      // 一点点魔术代码，为了跟其他任务连用，并保持一致性
             return done();
         }
         dir = dirs[index];
@@ -164,6 +165,7 @@ gulp.task("gift:gen_sheet", done => {
             }
         }
         console.log(`current gid: ${gid}`);
+        gids.push(gid);
         
         p = dirs.join(" ");
         o =  path.join(GameBase_Root, CommonPath, "assets/giftNew", `gift_${gid}.json`);
