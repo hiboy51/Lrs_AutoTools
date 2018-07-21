@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-21 18:32:58
+ * @Last Modified time: 2018-07-21 18:36:28
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -139,7 +139,7 @@ gulp.task("gift:gen_sheet", done => {
     let dirs = args.dir;
     Utils.simulateArgs("--file", dirs);                     // 为了跟后续任务连用，这里使用有点trick保持语义上的一致性
     if (!dirs) {
-        throw new PluginError("gift:gen_sheet", "YOU MUST SPECIFY A OR MORE DIRECTORIES CONTAIN SOURCE PICTURES");
+        throw new PluginError("gift:gen_sheet", "YOU MUST SPECIFY ONE OR MORE DIRECTORIES CONTAIN SOURCE PICTURES");
     }
     dirs = dirs.split(",").filter(e => e != "");
 
