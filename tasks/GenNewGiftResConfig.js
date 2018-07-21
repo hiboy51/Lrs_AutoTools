@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-20 16:29:00
+ * @Last Modified time: 2018-07-21 18:32:58
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -18,6 +18,7 @@ import Utils from "../utils/utils";
 import compress from "../plugins/tinify_png_jpg";
 import { exec } from "child_process";
 import fs from "fs";
+import sizeOf from "image-size";
 
 const $ = require("gulp-load-plugins")();
 const GameBase_Root = "/Users/momo/game_base";
@@ -146,9 +147,23 @@ gulp.task("gift:gen_sheet", done => {
     let dir, ext, gid, matches,
         p, o, c;
     let gids = [];
+    
+    const designSize = {w:512, h:512};
+    let checkSheetSize = () => {
+        let f, dimensions;
+        for (let g of gids) {
+            f = path.join(GameBase_Root, CommonPath, "assets/giftNew", `gift_${g}.png`);
+            dimensions = sizeOf(f);
+            if (dimensions.height > designSize.w || dimensions.height > designSize.h) {
+                console.error(`SHEET gift_${g}.png SIZE WARNING: ${dimensions.width} * ${dimensions.height}`);
+            }
+        }
+    };
+
     let next = (index) => {
         if (index == dirLen) {
             Utils.simulateArgs("--gid", gids.join(","));    // 为了跟后续任务连用，这里使用有点trick保持语义上的一致性
+            checkSheetSize();
             return done();
         }
         dir = dirs[index];
