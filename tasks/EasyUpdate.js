@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-20 16:26:58
+ * @Last Modified time: 2018-07-23 19:56:18
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -100,6 +100,7 @@ let cpy_src = (files, del, tol) => {
     return gulp.src(files)
             .pipe(P.debug())
             .pipe(P.if(del, P.clean({force: true})))
+            .pipe(P.rename(path => path.dirname = ""))
             .pipe(P.if(!tol, gulp.dest(toBase)))
             .pipe(P.if(!tol, gulp.dest(toSounds)))
             .pipe(gulp.dest(toLrs));
