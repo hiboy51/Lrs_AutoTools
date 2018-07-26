@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 10:44:32 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-03 14:22:31
+ * @Last Modified time: 2018-07-25 17:22:10
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -24,5 +24,6 @@ gulp.task("gift:cpy_src", done => {
                 .concat(dirs.map(each => `!${path.join(each, "**/*.exml")}`));
     return gulp.src(glob)
             .pipe(P.debug())
+            .pipe(P.rename(path => path.dirname = ""))
             .pipe(gulp.dest(CONST.Lrs_PictureSource_Path));
 });

@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-21 18:36:28
+ * @Last Modified time: 2018-07-25 12:21:47
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -154,8 +154,8 @@ gulp.task("gift:gen_sheet", done => {
         for (let g of gids) {
             f = path.join(GameBase_Root, CommonPath, "assets/giftNew", `gift_${g}.png`);
             dimensions = sizeOf(f);
-            if (dimensions.height > designSize.w || dimensions.height > designSize.h) {
-                console.error(`SHEET gift_${g}.png SIZE WARNING: ${dimensions.width} * ${dimensions.height}`);
+            if (dimensions.width > designSize.w || dimensions.height > designSize.h) {
+                console.log(`SHEET gift_${g}.png SIZE WARNING: ${dimensions.width} * ${dimensions.height}`);
             }
         }
     };
