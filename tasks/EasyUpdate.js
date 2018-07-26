@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-23 19:56:18
+ * @Last Modified time: 2018-07-26 12:22:11
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -12,6 +12,7 @@ import PluginError from "plugin-error";
 import path from "path";
 import fs from "fs";
 import { AssertionError } from "assert";
+import compress from "../plugins/tinify_png_jpg";
 
 const P = require("gulp-load-plugins")();
 let args = minimist(process.argv.slice(2));
@@ -120,8 +121,41 @@ gulp.task("sounds:cpy_src_2l", () => {
     let del = args.del === undefined ? true : !!args.del;
     let files = args.file;
     if (!files) {
-        throw new PluginError("sound:cpy_src_2l", "YOU MUST SPECFIY ONE OR MORE .mp3 FILES");
+        throw new PluginError("sound:cpy_src_2l", "YOU MUST SPECIFY ONE OR MORE .mp3 FILES");
     }
     files = files.split(",").map(f => f.trim());
     return cpy_src(files, del, true);
+});
+
+
+gulp.task("icon:cpy_src", () => {
+    let del = args.del === undefined ? true : !!args.del;
+    let files = args.file;
+    if (!files) {
+        throw new PluginArray("icon:cpy_src", "YOU MUST SPECIFY ONE OR MORE .png PICTURES");
+    }
+    
+    files = files.split(",")
+        .map(f => {
+            let st = fs.statSync(f);
+            if (st.isDirectory()) {
+                f = path.join(f, "**/*");
+            }
+            else if (st.isFile()) {
+                let en = path.extname(f);
+                if ([".png", ".jpg"].indexOf(en) == -1) {
+                    throw new PluginError("con:cpy_src", "YOU MUST SPECIFY A CORRECT FILE");
+                }
+            }
+        });
+    let toSrc = CONST.Lrs_IconSource_Path;
+    let toBase = path.join(CONST.GameBase_Root, CONST.CommonPath, "assets/giftIcon");
+    let toLrs = path.join(CONST.Lrs_Root, CONST.CommonPath, "assets/giftIcon");
+    
+    return gulp.src(files)
+            .pipe(compress())
+            .pipe(P.if(del, P.clean({force: true})))
+            .pipe(gulp.dest(toSrc))
+            .pipe(gulp.dest(toBase))
+            .pipe(gulp.dest(toLrs));
 });

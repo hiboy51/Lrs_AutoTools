@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-25 12:21:47
+ * @Last Modified time: 2018-07-26 12:23:40
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -13,6 +13,7 @@ import gen_pic from "../plugins/gen_pic_res";
 import path from "path";
 import stringify from "../plugins/stringify";
 import gen_icon from "../plugins/gen_icon_res";
+import gen_icon_2 from "../plugins/gen_icon_res2";
 import mod_json from "../plugins/modify_res_json";
 import Utils from "../utils/utils";
 import compress from "../plugins/tinify_png_jpg";
@@ -104,6 +105,14 @@ gulp.task("gen_res_icons", done => {
                 .pipe($.errorHandle());
 });
 
+gulp.task("gen_res_icons_2", done => {
+    const iconDir = path.join(GameBase_Root, CommonPath, "assets/giftIcon");
+    return gulp.src(path.join(iconDir, "**/*"))
+                .pipe($.debug())
+                .pipe(gen_icon_2(res_json_path))
+                .pipe($.errorHandle());
+});
+
 gulp.task("gift:clear_res_b", gulp.series(done => {
     args = minimist(process.argv.slice(2), GiftID);
     let gid = args.gid;
@@ -137,7 +146,7 @@ gulp.task("gift:clear_res_b", gulp.series(done => {
  */
 gulp.task("gift:gen_sheet", done => {
     let dirs = args.dir;
-    Utils.simulateArgs("--file", dirs);                     // 为了跟后续任务连用，这里使用有点trick保持语义上的一致性
+    Utils.simulateArgs("--file", dirs);                     // 为了跟后续任务连用，这里使用一点trick保持语义上的一致性
     if (!dirs) {
         throw new PluginError("gift:gen_sheet", "YOU MUST SPECIFY ONE OR MORE DIRECTORIES CONTAIN SOURCE PICTURES");
     }
@@ -208,4 +217,4 @@ gulp.task("asset:gen_res_b", gulp.series("gift:clear_res_b", "gen_res_json", "be
 /**
  * 自动更新icon图集到common.res.json中
  */
-gulp.task("icon:gen_res_b", gulp.series("gen_res_icons", "beautify_res_json"));
+gulp.task("icon:gen_res_b", gulp.series("gen_res_icons_2", "beautify_res_json"));
