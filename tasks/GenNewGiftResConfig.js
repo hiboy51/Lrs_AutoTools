@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-26 12:23:40
+ * @Last Modified time: 2018-07-27 10:10:04
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -108,7 +108,6 @@ gulp.task("gen_res_icons", done => {
 gulp.task("gen_res_icons_2", done => {
     const iconDir = path.join(GameBase_Root, CommonPath, "assets/giftIcon");
     return gulp.src(path.join(iconDir, "**/*"))
-                .pipe($.debug())
                 .pipe(gen_icon_2(res_json_path))
                 .pipe($.errorHandle());
 });
@@ -144,19 +143,35 @@ gulp.task("gift:clear_res_b", gulp.series(done => {
  *  生成合图文件
  *  --dir 源散图目录(可以多个)
  */
+
+function getAlllDirectories(dir) {
+    let stat = fs.lstatSync(dir);
+    if (stat.isFile()) {
+        return [];
+    }
+    let result = [];
+    let files = fs.readdirSync(dir);
+    files.forEach(f => {
+        result = result.concat(getAlllDirectories(path.join(dir, f)));
+    });
+    if (result.length == 0) {
+        result.push(dir);
+    }
+    return result;
+}
 gulp.task("gift:gen_sheet", done => {
     let dirs = args.dir;
     Utils.simulateArgs("--file", dirs);                     // 为了跟后续任务连用，这里使用一点trick保持语义上的一致性
     if (!dirs) {
         throw new PluginError("gift:gen_sheet", "YOU MUST SPECIFY ONE OR MORE DIRECTORIES CONTAIN SOURCE PICTURES");
     }
-    dirs = dirs.split(",").filter(e => e != "");
-
+    dirs = dirs.split(",").filter(e => e != "").map(d => getAlllDirectories(d)).reduce((pre, cur) => pre.concat(cur));
     let dirLen = dirs.length;
+    console.log(`${dirLen} dirs selected`);
     let dir, ext, gid, matches,
-        p, o, c;
+    p, o, c;
     let gids = [];
-    
+
     const designSize = {w:512, h:512};
     let checkSheetSize = () => {
         let f, dimensions;
@@ -178,9 +193,6 @@ gulp.task("gift:gen_sheet", done => {
         dir = dirs[index];
         let files = fs.readdirSync(dir);
         for (let f of files) {
-            if (fs.lstatSync(path.join(dir, f)).isDirectory()) {
-                continue;
-            }
             ext = path.extname(f);
             if ([".png", ".jpg"].indexOf(ext) == -1) {
                 continue;
