@@ -37,6 +37,7 @@
     "require-dir": "^1.0.0",
     "stream-series": "^0.1.1",
     "streamqueue": "^1.1.2",
-    "tinify": "^1.6.0-beta.2"
+    "tinify": "^1.6.0-beta.2",
+    "xml-js": "^1.6.7"
   }
 }

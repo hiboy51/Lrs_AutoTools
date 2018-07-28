@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-26 12:22:11
+ * @Last Modified time: 2018-07-28 12:12:11
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -13,6 +13,7 @@ import path from "path";
 import fs from "fs";
 import { AssertionError } from "assert";
 import compress from "../plugins/tinify_png_jpg";
+import checkExml from "../plugins/ExmlChecker";
 
 const P = require("gulp-load-plugins")();
 let args = minimist(process.argv.slice(2));
@@ -42,6 +43,12 @@ gulp.task("gift:up_conf", () => {
             .pipe(P.if(del, P.clean({force: true})))
             .pipe(gulp.dest(path.join(CONST.GameBase_Root, CONST.CommonPath, "config")))
             .pipe(gulp.dest(path.join(CONST.Lrs_Root, CONST.CommonPath, "config")));
+});
+
+gulp.task("x2j", () => {
+    let file = args.file;
+    return gulp.src(file)
+            .pipe(checkExml(err => console.log(err)));
 });
 
 /**
@@ -132,7 +139,7 @@ gulp.task("icon:cpy_src", () => {
     let del = args.del === undefined ? true : !!args.del;
     let files = args.file;
     if (!files) {
-        throw new PluginArray("icon:cpy_src", "YOU MUST SPECIFY ONE OR MORE .png PICTURES");
+        throw new PluginError("icon:cpy_src", "YOU MUST SPECIFY ONE OR MORE .png PICTURES");
     }
     
     files = files.split(",")
@@ -147,11 +154,12 @@ gulp.task("icon:cpy_src", () => {
                     throw new PluginError("con:cpy_src", "YOU MUST SPECIFY A CORRECT FILE");
                 }
             }
+            return f;
         });
     let toSrc = CONST.Lrs_IconSource_Path;
     let toBase = path.join(CONST.GameBase_Root, CONST.CommonPath, "assets/giftIcon");
     let toLrs = path.join(CONST.Lrs_Root, CONST.CommonPath, "assets/giftIcon");
-    
+    console.log(files);
     return gulp.src(files)
             .pipe(compress())
             .pipe(P.if(del, P.clean({force: true})))

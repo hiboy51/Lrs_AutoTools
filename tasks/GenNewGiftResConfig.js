@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-27 10:10:04
+ * @Last Modified time: 2018-07-27 14:03:07
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -168,6 +168,10 @@ gulp.task("gift:gen_sheet", done => {
     dirs = dirs.split(",").filter(e => e != "").map(d => getAlllDirectories(d)).reduce((pre, cur) => pre.concat(cur));
     let dirLen = dirs.length;
     console.log(`${dirLen} dirs selected`);
+    if (dirLen == 0) {
+        return done();
+    }
+
     let dir, ext, gid, matches,
     p, o, c;
     let gids = [];
