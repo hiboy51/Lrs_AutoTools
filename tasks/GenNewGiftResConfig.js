@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-27 14:03:07
+ * @Last Modified time: 2018-07-28 15:04:52
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -233,4 +233,4 @@ gulp.task("asset:gen_res_b", gulp.series("gift:clear_res_b", "gen_res_json", "be
 /**
  * 自动更新icon图集到common.res.json中
  */
-gulp.task("icon:gen_res_b", gulp.series("gen_res_icons_2", "beautify_res_json"));
+gulp.task("icon:gen_res_b", gulp.series("gen_res_icons", "beautify_res_json"));
