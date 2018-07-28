@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-07-28 10:26:33 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-28 13:55:08
+ * @Last Modified time: 2018-07-28 14:48:17
  */
 import through from "through2";
 import path from "path";
@@ -55,9 +55,18 @@ module.exports = function(errHandler) {
             let xmlContent = file.contents.toString("utf-8");
             let json = JSON.parse(convert.xml2json(xmlContent, {compact: true}));
             let root = json["e:Skin"];
-            let groups = root["e:Group"];
-            let allIds = selectAllIds(groups);
 
+            // 找出所有的UI组件ID
+            let allIds = [];
+            for (let g in root) {
+                if (g == "w:Config" || g == "w:Declarations" || g == "_attributes") {
+                    continue;
+                }
+                let groups = root[g];
+                allIds = allIds.concat(selectAllIds(groups));
+            }
+
+            // 遍历所有的动画配置
             let tween_group = root["w:Declarations"]["tween:TweenGroup"];
             let invalid = false;
             for (let dec in tween_group) {
