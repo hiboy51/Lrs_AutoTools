@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-28 12:12:11
+ * @Last Modified time: 2018-07-28 13:57:14
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -45,12 +45,6 @@ gulp.task("gift:up_conf", () => {
             .pipe(gulp.dest(path.join(CONST.Lrs_Root, CONST.CommonPath, "config")));
 });
 
-gulp.task("x2j", () => {
-    let file = args.file;
-    return gulp.src(file)
-            .pipe(checkExml(err => console.log(err)));
-});
-
 /**
  *  同步覆盖 game_base 和 lrs 的 .exml 文件
  *  必须指定源 .exml 路径或包含其目录路径
@@ -79,6 +73,7 @@ gulp.task("gift:up_skin", () => {
             });
     return gulp.src(file)
                 .pipe(P.debug())
+                .pipe(checkExml(err => console.log(err)))
                 .pipe(P.if(del, P.clean({force: true})))
                 .pipe(P.rename(path => {
                     path.dirname = "";
