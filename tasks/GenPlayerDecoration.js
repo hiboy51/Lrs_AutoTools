@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-07-02 19:58:10 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-31 10:43:23
+ * @Last Modified time: 2018-07-31 10:49:16
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -76,7 +76,7 @@ function filterChatItem(file, groups, resource) {
 /**
  * 玩家装饰：头像框，气泡框，入场特效，弹幕框
  */
-gulp.task("decoration:added", () => {
+gulp.task("decoration:add", () => {
     let dirs = args.dir;
     if (!dirs) {
         throw new PluginError("decoration:added", "YOU MUST SPECIFY ONE OR MORE DIRECTORIES");
