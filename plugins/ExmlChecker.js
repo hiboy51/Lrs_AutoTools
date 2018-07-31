@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-07-28 10:26:33 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-28 14:48:17
+ * @Last Modified time: 2018-07-31 11:42:09
  */
 import through from "through2";
 import path from "path";
@@ -52,45 +52,55 @@ module.exports = function(errHandler) {
 
         let exn = path.extname(file.relative);
         if (exn == ".exml") {
-            let xmlContent = file.contents.toString("utf-8");
-            let json = JSON.parse(convert.xml2json(xmlContent, {compact: true}));
-            let root = json["e:Skin"];
+            this.push(file);
+            return callback();
+        }
 
-            // 找出所有的UI组件ID
-            let allIds = [];
-            for (let g in root) {
-                if (g == "w:Config" || g == "w:Declarations" || g == "_attributes") {
-                    continue;
-                }
-                let groups = root[g];
-                allIds = allIds.concat(selectAllIds(groups));
+        let xmlContent = file.contents.toString("utf-8");
+        let json = JSON.parse(convert.xml2json(xmlContent, {compact: true}));
+        let root = json["e:Skin"];
+
+        // 找出所有的UI组件ID
+        let allIds = [];
+        for (let g in root) {
+            if (g == "w:Config" || g == "w:Declarations" || g == "_attributes") {
+                continue;
             }
+            let groups = root[g];
+            allIds = allIds.concat(selectAllIds(groups));
+        }
 
-            // 遍历所有的动画配置
-            let tween_group = root["w:Declarations"]["tween:TweenGroup"];
-            let invalid = false;
+        // 遍历所有的动画配置
+        let tween_group = root["w:Declarations"]["tween:TweenGroup"];   // TweenGroup可能有一个或多个
+        if (!Array.isArray(tween_group)) {
+            tween_group = [tween_group];
+        }
+
+        let errReportor = (leaf, allIds) => {
+            let invalid = checkTargetId(i, allIds);
+            if (invalid && errHandler) {
+                errHandler(`EXML < ${path.basename(file.relative)} > HAS INVALID TARGET THAT NOT EXISTED: ${invalid}`);
+            }
+        };
+        tween_group.forEach(each => {
             for (let dec in tween_group) {
                 if (dec == "_attributes") {
+                    console.log((`start check group : ${dec.id}`));
                     continue;
                 }
                 let each = tween_group[dec];
                 if (Array.isArray(each)) {
                     for (let i of each) {
-                        invalid = checkTargetId(i, allIds);
-                        if (invalid) {
-                            break;
-                        }
+                        errReportor(i, allIds);
                     }
                 }
                 else {
-                    invalid = checkTargetId(each, allIds);
-                }
-                if (invalid && errHandler) {
-                    errHandler(`EXML < ${path.basename(file.relative)} > HAS INVALID TARGET THAT NOT EXISTED: ${invalid}`);
+                    errReportor(each, allIds);
                 }
             }
-            this.push(file);
-        }
-        callback();
+        });
+
+        this.push(file);
+        return callback();
     });
 };
