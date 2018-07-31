@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-07-02 19:58:10 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-10 11:29:18
+ * @Last Modified time: 2018-07-31 10:43:23
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -36,21 +36,26 @@ function filterBagItem(file, groups, resource) {
 
     let group = groups.filter(e => e.name == "modulereload_hghall")[0];
     let karr = group.keys.split(",");
-    karr.push(key);
-    group.keys = karr.sort().join(",");
 
-    resource.push({
-        "url": path.join("hghall/assert/bag", fn),
-        "type": "image",
-        "name": key
-    });
+    if (!karr.include(key)) {                       // 避免重复添加
+        karr.push(key);
+        group.keys = karr.sort().join(",");
+    }
+
+    if (resource.every(e => e.name != key)) {       // 避免重复添加
+        resource.push({
+            "url": path.join("hghall/assert/bag", fn),
+            "type": "image",
+            "name": key
+        });
+    }
 }
 
 function filterChatItem(file, groups, resource) {
     let fn = path.basename(file.relative);
     let key = fn.replace(".", "_");
 
-    if (!prefix_chat.every(e => fn.indexOf(e) == -1)) {
+    if (prefix_chat.some(e => fn.includes(e)) && resource.every(e => e.name != key)) {
         resource.push({
             "url": path.join("lrsRoom/assets/chatbox", fn),
             "type": "image",
@@ -59,7 +64,7 @@ function filterChatItem(file, groups, resource) {
         return;
     }
     
-    if (!prefix_effect.every(e => fn.indexOf(e) == -1)) {
+    if (prefix_effect.some(e => fn.includes(e)) && resource.every(e => e.name != key)) {
         resource.push({
             "url": path.join("lrsRoom/assets/joinroomeffect", fn),
             "type": "image",
@@ -83,7 +88,7 @@ gulp.task("decoration:added", () => {
     let filter = (arr) => {
         return P.filterEach((_, filepath) => {
             let fn = path.basename(filepath);
-            let contain = arr.some(e => fn.indexOf(e) != -1);
+            let contain = arr.some(e => fn.includes(e));
             return contain; 
         });
     };
