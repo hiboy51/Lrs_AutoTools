@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-28 15:04:52
+ * @Last Modified time: 2018-07-31 11:52:37
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -35,16 +35,6 @@ const GiftID = {
 };
 
 let args = minimist(process.argv.slice(2), GiftID);
-
-/** 用于测试 */
-gulp.task("tinify", done => {
-    let file = args.file;
-    
-    return gulp.src(file)
-            .pipe(compress())
-            .pipe($.debug())
-            .pipe(gulp.dest("/Users/momo/Downloads/张敬林"));
-});
 
 gulp.task("compress_pic", done => {
     let gid = args.gid;
