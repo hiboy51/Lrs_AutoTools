@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-07-02 19:58:10 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-31 10:49:16
+ * @Last Modified time: 2018-07-31 11:08:05
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -24,6 +24,8 @@ const args = minimist(process.argv.slice(2));
 const toBag = path.join(CONST.Host_Game_Root, "resource/hghall/assert/bag");
 const toChat = path.join(CONST.Lrs_Root, CONST.Lrs_Room, "assets/chatbox");
 const toEffect = path.join(CONST.Lrs_Root, CONST.Lrs_Room, "assets/joinroomeffect");
+const itemConfigPath = path.join(CONST.GameBase_Root, CONST.CommonPath, "config");
+const itemShowParamConfigPath = path.join(CONST.Lrs_Root, CONST.Lrs_Room, "config");
 
 const prefix_bag = ["liaotian_icon_", "ruchang_icon_", "touxiang_icon_"];
 const prefix_chat = ["ChatBox_"];
@@ -37,7 +39,7 @@ function filterBagItem(file, groups, resource) {
     let group = groups.filter(e => e.name == "modulereload_hghall")[0];
     let karr = group.keys.split(",");
 
-    if (!karr.include(key)) {                       // 避免重复添加
+    if (!karr.includes(key)) {                       // 避免重复添加
         karr.push(key);
         group.keys = karr.sort().join(",");
     }
@@ -116,7 +118,17 @@ gulp.task("decoration:add", () => {
             .pipe(P.rename(path => {
                 path.dirname = "";
             }))
-            .pipe(gulp.dest(toEffect))
+            .pipe(gulp.dest(toEffect)),
+
+        gulp.src(dirs)
+            .pipe(filter(["item.json"]))
+            .pipe(P.rename(path => path.dirname = ""))
+            .pipe(gulp.dest(itemConfigPath)),
+
+        gulp.src(dirs)
+            .pipe(filter(["itemShowParam.json"]))
+            .pipe(P.rename(path => path.dirname = ""))
+            .pipe(gulp.dest(itemShowParamConfigPath))
     )
     .pipe(P.debug())
     .pipe(P.errorHandle());
