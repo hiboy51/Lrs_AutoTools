@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-07-28 10:26:33 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-31 11:42:09
+ * @Last Modified time: 2018-07-31 14:40:18
  */
 import through from "through2";
 import path from "path";
@@ -51,7 +51,7 @@ module.exports = function(errHandler) {
         }
 
         let exn = path.extname(file.relative);
-        if (exn == ".exml") {
+        if (exn != ".exml") {
             this.push(file);
             return callback();
         }
@@ -77,18 +77,18 @@ module.exports = function(errHandler) {
         }
 
         let errReportor = (leaf, allIds) => {
-            let invalid = checkTargetId(i, allIds);
+            let invalid = checkTargetId(leaf, allIds);
             if (invalid && errHandler) {
                 errHandler(`EXML < ${path.basename(file.relative)} > HAS INVALID TARGET THAT NOT EXISTED: ${invalid}`);
             }
         };
-        tween_group.forEach(each => {
-            for (let dec in tween_group) {
+        tween_group.forEach(tg => {
+            for (let dec in tg) {
                 if (dec == "_attributes") {
-                    console.log((`start check group : ${dec.id}`));
+                    console.log((`start check group : ${tg[dec].id}`));
                     continue;
                 }
-                let each = tween_group[dec];
+                let each = tg[dec];
                 if (Array.isArray(each)) {
                     for (let i of each) {
                         errReportor(i, allIds);
