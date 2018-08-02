@@ -1,4 +1,4 @@
-# Lrs_Gift_AutoTools
+# Lrs_AutoTools
   每天开一堆文件夹复制来复制去，脑壳都搞晕！
 
 ### [先安装 node.js 和 gulp 环境](https://gulpjs.com/)
