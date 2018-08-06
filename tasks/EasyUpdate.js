@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-21 18:33:31 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-28 13:57:14
+ * @Last Modified time: 2018-08-06 14:44:10
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -110,7 +110,7 @@ let cpy_src = (files, del, tol) => {
 };
 
 gulp.task("sounds:cpy_src", () => {
-    let del = args.del === undefined ? true : !!args.del;
+    let del = !!args.del;
     let files = args.file;
     if (!files) {
         throw new PluginError("sound:cpy_src", "YOU MUST SPECFIY ONE OR MORE .mp3 FILES");
@@ -120,7 +120,7 @@ gulp.task("sounds:cpy_src", () => {
 });
 
 gulp.task("sounds:cpy_src_2l", () => {
-    let del = args.del === undefined ? true : !!args.del;
+    let del = !!args.del;
     let files = args.file;
     if (!files) {
         throw new PluginError("sound:cpy_src_2l", "YOU MUST SPECIFY ONE OR MORE .mp3 FILES");
