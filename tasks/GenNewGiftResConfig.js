@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-08-11 11:14:31
+ * @Last Modified time: 2018-08-11 18:57:24
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -52,6 +52,10 @@ gulp.task("compress_pic", done => {
 
     return gulp.src(path.join(assetPath, "**/*"))
             .pipe(filter_gift(gid))
+            .pipe(P.filterEach((_, fp) => {
+                let fn = path.basename(fp);
+                return [".png", ".jpg"].some(e => fn.includes(e));
+            }))
             .pipe(compress())
             .pipe(gulp.dest(assetPath));
 });
