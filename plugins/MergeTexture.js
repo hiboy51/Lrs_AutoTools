@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-08-11 17:08:40 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-08-11 17:24:55
+ * @Last Modified time: 2018-08-11 19:01:21
  */
 import through from "through2";
 import path from "path";
@@ -19,6 +19,7 @@ module.exports = function(destPath, sheetName) {
             if (err) {
                 console.log(err);
             }
+            this.push(file);
             callback();
          });
     });

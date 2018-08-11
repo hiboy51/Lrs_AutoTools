@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-22 10:38:20 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-08-11 18:50:35
+ * @Last Modified time: 2018-08-11 19:01:30
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -79,7 +79,7 @@ gulp.task("skin:add", () => {
     let jpgs = [];
 
     let processAsset = series(
-        // 拷贝飞图集资源
+        // 拷贝非图集资源
         gulp.src(notSheetAsset)
             .pipe(gulp.dest(dest)),
 
@@ -88,11 +88,8 @@ gulp.task("skin:add", () => {
             .pipe(gulp.dest(path.join(dest, "sheet"))),
             
         // 打包图集
-        gulp.src(dest)
-            .pipe(sheet(dest, `animSkin_${name}.json`)),
-
-        // 删除临时文件夹
         gulp.src(path.join(dest, "sheet"))
+            .pipe(sheet(dest, `animSkin_${name}.json`))
             .pipe(P.clean({force: true})),
 
         // 拷贝exml文件并注入lrsRoom.res.json
