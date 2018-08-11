@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-07-02 19:58:10 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-31 11:08:05
+ * @Last Modified time: 2018-08-11 11:34:09
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -86,6 +86,8 @@ gulp.task("decoration:add", () => {
     dirs = path.join(dirs, "**/*");
     const hallResJsonPath = path.join(CONST.Host_Game_Root, "resource/hghall", "hghall.res.json");
     const roomResJsonPath = path.join(CONST.Lrs_Root, CONST.Lrs_Room, "lrsRoom.res.json");
+    const itemJsonPath = path.join(CONST.GameBase_Root, CONST.CommonPath, "config");
+    const showJsonPath = path.join(CONST.Lrs_Root, CONST.Lrs_Room, "config");
     
     let filter = (arr) => {
         return P.filterEach((_, filepath) => {
@@ -128,7 +130,15 @@ gulp.task("decoration:add", () => {
         gulp.src(dirs)
             .pipe(filter(["itemShowParam.json"]))
             .pipe(P.rename(path => path.dirname = ""))
-            .pipe(gulp.dest(itemShowParamConfigPath))
+            .pipe(gulp.dest(itemShowParamConfigPath)),
+
+        gulp.src(dirs)
+            .pipe(P.filterEach((_, filePath) => path.basename(filePath) == "item.json"))
+            .pipe(gulp.dest(itemJsonPath)),
+        
+        gulp.src(dirs)
+            .pipe(P.filterEach((_, filePath) => path.basename(filePath) == "itemShowParam.json"))
+            .pipe(gulp.dest(showJsonPath))
     )
     .pipe(P.debug())
     .pipe(P.errorHandle());
