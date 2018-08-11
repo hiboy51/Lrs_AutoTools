@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-07-31 11:52:37
+ * @Last Modified time: 2018-08-11 11:14:31
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -56,7 +56,7 @@ gulp.task("compress_pic", done => {
             .pipe(gulp.dest(assetPath));
 });
 
-gulp.task("gen_res_json", gulp.series("compress_pic", done => {
+gulp.task("gen_res_json", done => {
     args = minimist(process.argv.slice(2), GiftID);
     let gid = args.gid;
     if (!gid) {
@@ -72,7 +72,7 @@ gulp.task("gen_res_json", gulp.series("compress_pic", done => {
         .pipe(gen_exml(res_json_path))
         .pipe(gen_pic(res_json_path))
         .pipe($.errorHandle());
-}));
+});
 
 gulp.task("beautify_res_json", done => {
     return gulp.src(res_json_path)
@@ -149,13 +149,16 @@ function getAlllDirectories(dir) {
     }
     return result;
 }
-gulp.task("gift:gen_sheet", done => {
+gulp.task("gift:gen_sheet", gulp.series(done => {
     let dirs = args.dir;
     Utils.simulateArgs("--file", dirs);                     // 为了跟后续任务连用，这里使用一点trick保持语义上的一致性
     if (!dirs) {
         throw new PluginError("gift:gen_sheet", "YOU MUST SPECIFY ONE OR MORE DIRECTORIES CONTAIN SOURCE PICTURES");
     }
-    dirs = dirs.split(",").filter(e => e != "").map(d => getAlllDirectories(d)).reduce((pre, cur) => pre.concat(cur));
+    dirs = dirs.split(",")
+                .filter(e => e != "")
+                .map(d => getAlllDirectories(d))
+                .reduce((pre, cur) => pre.concat(cur));
     let dirLen = dirs.length;
     console.log(`${dirLen} dirs selected`);
     if (dirLen == 0) {
@@ -212,7 +215,7 @@ gulp.task("gift:gen_sheet", done => {
     };
 
     next(0);
-});
+}, "compress_pic"));
 
 /**
  *  自动将新增礼物资源追加到common.res.json中
