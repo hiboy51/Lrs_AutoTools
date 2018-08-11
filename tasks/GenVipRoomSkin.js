@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-22 10:38:20 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-08-11 18:40:34
+ * @Last Modified time: 2018-08-11 18:50:35
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -20,6 +20,7 @@ import series from "stream-series";
 import sheet from "../plugins/MergeTexture";
 import editResJson from "../plugins/modify_res_json";
 import je from "gulp-json-editor";
+import compress from "../plugins/tinify_png_jpg";
 
 const P = require("gulp-load-plugins")();
 const args = minimist(process.argv.slice(2));
@@ -116,6 +117,7 @@ gulp.task("skin:add", () => {
                 let fn = path.basename(fp);
                 return icon$pre.includes(fn);
             }))
+            .pipe(compress())
             .pipe(gulp.dest(path.join(CONST.Lrs_Root, CONST.Lrs_Room, "assets/UI/skin_vip")))
             .pipe(editResJson(lrsResJson, (file, groups, resources) => {
                 let fn = path.basename(file.path);
@@ -134,6 +136,7 @@ gulp.task("skin:add", () => {
                 jpgs.push(path.basename(fp));
                 return true;
             }))
+            .pipe(compress())
             .pipe(gulp.dest(newFolder))
             .pipe(editResJson(lrsResJson, (file, groups, resources) => {
                 let fn = path.basename(file.path);
@@ -152,6 +155,7 @@ gulp.task("skin:add", () => {
                 let fn = path.basename(fp);
                 return fn.includes(`animSkin_${name}`);
             }))
+            .pipe(compress())
             .pipe(gulp.dest(newFolder))
             .pipe(editResJson(lrsResJson, (file, groups, resources) => {
                 if (path.extname(file.relative) != ".json") {
