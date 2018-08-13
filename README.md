@@ -67,7 +67,8 @@
   // 替换音效资源到GameBase、lrs、allSounds， 必须指定(__--file__)一个或多个音效文件路径(或目录)，以逗号隔开，__--del__ 标识拷贝后删除源文件
 
 ### 处理皮肤
-  * gulp skin:add --dir --name
+  * gulp skin:add --dir --name --id   
+  // __--dir__ 源素材目录， __name__ 作为皮肤的key名， __id__ 皮肤的配置id
 
 ### 最佳实践
   1. __`gulp --dir --comp`__ 处理资源文件（自动合图，图片压缩，生成配置,同步模块） 
