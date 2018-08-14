@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-22 10:38:20 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-08-13 15:07:35
+ * @Last Modified time: 2018-08-14 10:31:09
  */
 import gulp from "gulp";
 import CONST from "../const";
@@ -150,7 +150,7 @@ gulp.task("_skin:process_src", () => {
                     return;
                 }
                 resources.push({
-                    "url": path.join("lrsRoom/assets/UI", name, fn),
+                    "url": path.join("lrsRoom/assets/UI", `skin_${name}`, fn),
                     "type": "image",
                     "name": fk
                 });
@@ -171,7 +171,7 @@ gulp.task("_skin:process_src", () => {
                 let sheetjson = JSON.parse(fc);
                 let subkeys = Object.keys(sheetjson.frames).sort().join(",");
                 resources.push({
-                    "url": path.join("lrsRoom/assets/UI", fn),
+                    "url": path.join("lrsRoom/assets/UI", `skin_${name}`, fn),
                     "type": "sheet",
                     "name": fk,
                     "subkeys": subkeys 
