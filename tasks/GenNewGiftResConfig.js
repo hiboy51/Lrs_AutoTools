@@ -2,7 +2,7 @@
  * @Author: Kinnon.Z 
  * @Date: 2018-06-20 16:26:41 
  * @Last Modified by: Kinnon.Z
- * @Last Modified time: 2018-08-11 18:57:24
+ * @Last Modified time: 2018-08-25 14:36:22
  */
 import gulp from 'gulp';
 import minimist from "minimist";
@@ -37,6 +37,7 @@ const GiftID = {
 let args = minimist(process.argv.slice(2), GiftID);
 
 gulp.task("compress_pic", done => {
+    args = minimist(process.argv.slice(2), GiftID);
     let gid = args.gid;
     let comp = !!args.comp;
     if (!gid) {
@@ -52,7 +53,7 @@ gulp.task("compress_pic", done => {
 
     return gulp.src(path.join(assetPath, "**/*"))
             .pipe(filter_gift(gid))
-            .pipe(P.filterEach((_, fp) => {
+            .pipe($.filterEach((_, fp) => {
                 let fn = path.basename(fp);
                 return [".png", ".jpg"].some(e => fn.includes(e));
             }))
@@ -230,4 +231,4 @@ gulp.task("asset:gen_res_b", gulp.series("gift:clear_res_b", "gen_res_json", "be
 /**
  * 自动更新icon图集到common.res.json中
  */
-gulp.task("icon:gen_res_b", gulp.series("gen_res_icons", "beautify_res_json"));
+gulp.task("icon:gen_res_b", gulp.series("gen_res_icons_2", "beautify_res_json"));
